@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: VMonClick
+
+
+  cassandra:
+      keyspace-name: vmdb
+      contact-points: 
+      - "node-0.aws-us-east-1.83e9e6a191819bfd0ce6.clusters.scylla.cloud"
+      - "node-1.aws-us-east-1.83e9e6a191819bfd0ce6.clusters.scylla.cloud"
+      - "node-2.aws-us-east-1.83e9e6a191819bfd0ce6.clusters.scylla.cloud"
+      schema-action: CREATE_IF_NOT_EXISTS
+      username: scylla
+      password: Ve2GulbInO1wt5d
+      local-datacenter: AWS_US_EAST_1
+
+server:
+  port: 8080
