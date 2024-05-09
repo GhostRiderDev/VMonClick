@@ -30,6 +30,7 @@ public class VmEntity {
   private Date dateCreated;
 
   @Column
-  @CassandraType(type = CassandraType.Name.LIST, typeArguments = { CassandraType.Name.UDT })
+  @CassandraType(type = CassandraType.Name.LIST, typeArguments = {CassandraType.Name.UDT},
+      userTypeName = "instancentity")
   private List<InstancEntity> instances = new ArrayList<>();
 }

@@ -5,9 +5,11 @@ import java.util.UUID;
 import org.springframework.data.cassandra.core.mapping.Column;
 import org.springframework.data.cassandra.core.mapping.PrimaryKey;
 import org.springframework.data.cassandra.core.mapping.Table;
+import org.springframework.data.cassandra.core.mapping.UserDefinedType;
 
 
 @Table(value = "Instance")
+@UserDefinedType("instancentity")
 public class InstancEntity {
 
   @PrimaryKey
