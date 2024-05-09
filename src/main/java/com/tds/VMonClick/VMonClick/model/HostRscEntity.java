@@ -7,16 +7,14 @@ import org.springframework.data.cassandra.core.mapping.Column;
 import org.springframework.data.cassandra.core.mapping.PrimaryKey;
 import org.springframework.data.cassandra.core.mapping.Table;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Table(value = "Metric")
+@Table(value = "Host_rsc")
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-@Builder
-public class MetricEntity {
+@AllArgsConstructor
+public class HostRscEntity {
   @PrimaryKey
   private UUID id;
 
@@ -35,5 +33,4 @@ public class MetricEntity {
 
   @Column("date_registered")
   private LocalDateTime dateRegistered;
-
 }

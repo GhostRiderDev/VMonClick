@@ -3,7 +3,6 @@ package com.tds.VMonClick.VMonClick.model;
 import java.util.UUID;
 
 import org.springframework.data.cassandra.core.mapping.CassandraType;
-import org.springframework.data.cassandra.core.mapping.Column;
 import org.springframework.data.cassandra.core.mapping.PrimaryKey;
 import org.springframework.data.cassandra.core.mapping.Table;
 
