@@ -24,12 +24,9 @@ public class HostRscEntity {
   @CassandraType(type = CassandraType.Name.INT)
   private Integer ram;
 
-  @CassandraType(type = CassandraType.Name.INT)
-  private Integer disk;
+  @CassandraType(type = CassandraType.Name.DOUBLE)
+  private Double disk;
 
-  @CassandraType(type = CassandraType.Name.INT)
-  @Column("band_width")
-  private Integer bandWidth;
 
   @Column("date_registered")
   private LocalDateTime dateRegistered;

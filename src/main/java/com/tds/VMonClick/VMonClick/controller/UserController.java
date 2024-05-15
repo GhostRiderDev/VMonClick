@@ -28,8 +28,10 @@ public class UserController {
         try {
             return ResponseEntity.ok().body(userService.getAllUsers());
         } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
-                    "Unavailable server");
+            System.out.println("HAY UN ERROR****************+");
+            throw e;
+            // throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+            // "Unavailable server");
         }
     }
 
@@ -38,8 +40,10 @@ public class UserController {
         try {
             return ResponseEntity.ok().body(userService.createUser(user));
         } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
-                    "Unavailable server");
+            System.out.println("HAY UN ERROR****************+");
+            throw e;
+            // throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+            // "Unavailable server");
         }
     }
 

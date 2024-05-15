@@ -21,10 +21,10 @@ public class VmEntity {
   private Integer id;
 
   @Transient
-  private static Integer idStatic;
+  private static Integer idStatic = 0;
 
-  @Column(value = "path_iso")
-  private String pathISO;
+  @Column(value = "iso")
+  private String iso;
 
   @Column(value = "date_created")
   private Date dateCreated;
@@ -32,5 +32,5 @@ public class VmEntity {
   @Column
   @CassandraType(type = CassandraType.Name.LIST, typeArguments = {CassandraType.Name.UDT},
       userTypeName = "instancentity")
-  private List<InstancEntity> instances = new ArrayList<>();
+  private List<InstanceEntity> instances = new ArrayList<>();
 }
