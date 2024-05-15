@@ -36,12 +36,18 @@ public class HostRscService {
     hostRscToUpdate.setCpu(hostRsc.getCpu());
     hostRscToUpdate.setRam(hostRsc.getRam());
     hostRscToUpdate.setDisk(hostRsc.getDisk());
-    hostRscToUpdate.setBandWidth(hostRsc.getBandWidth());
     hostRscToUpdate.setDateRegistered(hostRsc.getDateRegistered());
     return hostRscRepository.save(hostRscToUpdate);
   }
 
   public void deleteHostRsc(String id) {
     hostRscRepository.deleteById(UUID.fromString(id));
+  }
+
+  public HostRscEntity getLastRegister() {
+    var allRegisters = hostRscRepository.findAll();
+    return allRegisters.stream()
+        .sorted((r1, r2) -> r2.getDateRegistered().compareTo(r1.getDateRegistered())).findFirst()
+        .orElse(null);
   }
 }

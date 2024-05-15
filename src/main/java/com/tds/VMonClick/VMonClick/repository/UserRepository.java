@@ -14,6 +14,6 @@ import java.util.UUID;
 public interface UserRepository extends CrudRepository<UserEntity, UUID> {
     List<UserEntity> findAll();
 
-    @Query(value = "SELECT * FROM UserEntity WHERE email=?0 ALLOW FILTERING")
+    @Query(value = "SELECT * FROM user WHERE email=?0 ALLOW FILTERING")
     Optional<UserEntity> findOneByEmail(String email);
 }

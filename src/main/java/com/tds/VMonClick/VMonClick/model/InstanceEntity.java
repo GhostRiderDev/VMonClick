@@ -5,24 +5,30 @@ import java.util.UUID;
 import org.springframework.data.cassandra.core.mapping.Column;
 import org.springframework.data.cassandra.core.mapping.PrimaryKey;
 import org.springframework.data.cassandra.core.mapping.Table;
-import org.springframework.data.cassandra.core.mapping.UserDefinedType;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
 @Table(value = "Instance")
-@UserDefinedType("instancentity")
-public class InstancEntity {
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class InstanceEntity {
 
   @PrimaryKey
-  private UUID id;
+  private String id;
 
   @Column(value = "id_vm")
-  private UUID idVM;
+  private Integer idVM;
 
   @Column(value = "id_rsc")
   private Integer idRsc;
 
   @Column(value = "id_user")
-  private UUID idUser;
+  private String idUser;
 
   @Column(value = "id_created")
   private LocalDateTime dateCreated;
