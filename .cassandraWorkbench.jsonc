@@ -1,0 +1,21 @@
+[
+  // AllowAllAuthenticator
+  {
+    "name": "Cluster AllowAllAuthenticator",
+    "contactPoints": ["127.0.0.1"]
+  },
+  //PasswordAuthenticator
+  {
+    "name": "Cluster cassandra",
+    "contactPoints": [
+      "node-0.aws-sa-east-1.575f197665f85a77a519.clusters.scylla.cloud",
+      "node-1.aws-sa-east-1.575f197665f85a77a519.clusters.scylla.cloud",
+      "node-2.aws-sa-east-1.575f197665f85a77a519.clusters.scylla.cloud"
+    ],
+    "authProvider": {
+      "class": "PasswordAuthenticator",
+      "username": "scylla",
+      "password": "vFgcj9k4StLZ1OU"
+    }
+  }
+]

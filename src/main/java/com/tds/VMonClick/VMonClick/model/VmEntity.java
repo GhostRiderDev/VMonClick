@@ -31,6 +31,6 @@ public class VmEntity {
 
   @Column
   @CassandraType(type = CassandraType.Name.LIST, typeArguments = {CassandraType.Name.UDT},
-      userTypeName = "instancentity")
+      userTypeName = "instance")
   private List<InstanceEntity> instances = new ArrayList<>();
 }
