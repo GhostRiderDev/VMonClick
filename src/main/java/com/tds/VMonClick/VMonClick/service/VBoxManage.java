@@ -17,67 +17,173 @@ public class VBoxManage {
     var command = new ArrayList<String>();
     ProcessBuilder processBuilder = new ProcessBuilder();
 
-    // Crear la VM
+
+
+    // Crear la máquina virtual
     command.add("VBoxManage");
     command.add("createvm");
     command.add("--name");
-    command.add("Ubuntu_".concat(
-        resourceEntity.getCpu() + "-" + resourceEntity.getRam() + "-" + resourceEntity.getDisk()));
+    command.add("Ubuntu_" + resourceEntity.getCpu() + "-" + resourceEntity.getRam() + "-"
+        + resourceEntity.getDisk() + "-" + instanceEntity.getId());
+    command.add("--register");
     command.add("--ostype");
     command.add("Ubuntu_64");
-    command.add("--register");
-    command.add("--basefolder");
-    command.add("C:/Users/Public/VMs");
-    command.add("--uuid");
-    command.add(instanceEntity.getId().toString());
-
     processBuilder.command(command);
-    Process process = processBuilder.start();
-    printProcessOutput(process);
 
+    Process process = processBuilder.start();
+    process = processBuilder.start();
+    printProcessOutput(process);
     command.clear();
+
 
     // Establecer el número de CPUs
     command.add("VBoxManage");
     command.add("modifyvm");
     command.add("Ubuntu_" + resourceEntity.getCpu() + "-" + resourceEntity.getRam() + "-"
-        + resourceEntity.getDisk());
+        + resourceEntity.getDisk() + "-" + instanceEntity.getId());
     command.add("--cpus");
     command.add(resourceEntity.getCpu().toString());
     command.add("--memory");
     command.add(resourceEntity.getRam().toString());
     command.add("--graphicscontroller");
     command.add("vmsvga");
+    // command.add("--nic1");
+    // command.add("bridged");
 
-    processBuilder.command(command);
-    process = processBuilder.start();
-    printProcessOutput(process);
+    if (!command.isEmpty()) {
+      processBuilder.command(command);
+      process = processBuilder.start();
+      printProcessOutput(process);
+      command.clear();
+    } else {
+      System.out.println("La lista de comandos está vacía, no se puede iniciar el proceso");
+    }
 
-    command.clear();
+    // Crear el disco duro virtual
+    String vdiFilePath = "C:/Users/Public/VMs/" + vmEntity.getId() + "/Ubuntu_"
+        + resourceEntity.getCpu() + "-" + resourceEntity.getRam() + "-" + resourceEntity.getDisk()
+        + "-" + instanceEntity.getId() + ".vdi";
+    command.add("VBoxManage");
+    command.add("createmedium");
+    command.add("--filename");
+    command.add(vdiFilePath);
+    command.add("--size");
+    command.add(String.valueOf(30000));
 
-    // Crear el controlador IDE
+    if (!command.isEmpty()) {
+      processBuilder.command(command);
+      process = processBuilder.start();
+      printProcessOutput(process);
+      command.clear();
+    } else {
+      System.out.println("La lista de comandos está vacía, no se puede iniciar el proceso");
+    }
+
+
     command.add("VBoxManage");
     command.add("storagectl");
     command.add("Ubuntu_" + resourceEntity.getCpu() + "-" + resourceEntity.getRam() + "-"
-        + resourceEntity.getDisk());
+        + resourceEntity.getDisk() + "-" + instanceEntity.getId());
     command.add("--name");
     command.add("IDE Controller");
     command.add("--add");
     command.add("ide");
 
-    processBuilder.command(command);
-    process = processBuilder.start();
-    printProcessOutput(process);
+    if (!command.isEmpty()) {
+      processBuilder.command(command);
+      process = processBuilder.start();
+      printProcessOutput(process);
+      command.clear();
+    } else {
+      System.out.println("La lista de comandos está vacía, no se puede iniciar el proceso");
+    }
 
     command.clear();
 
-    // Asociar la imagen ISO a la VM
+    command.add("VBoxManage");
+    command.add("storagectl");
+    command.add("Ubuntu_" + resourceEntity.getCpu() + "-" + resourceEntity.getRam() + "-"
+        + resourceEntity.getDisk() + "-" + instanceEntity.getId());
+    command.add("--name");
+    command.add("SATA Controller");
+    command.add("--add");
+    command.add("sata");
+
+    if (!command.isEmpty()) {
+      processBuilder.command(command);
+      process = processBuilder.start();
+      printProcessOutput(process);
+      command.clear();
+    } else {
+      System.out.println("La lista de comandos está vacía, no se puede iniciar el proceso");
+    }
+
+    command.clear();
+
+
+
+    // Asegúrate de que el disco duro virtual está correctamente conectado
     command.add("VBoxManage");
     command.add("storageattach");
     command.add("Ubuntu_" + resourceEntity.getCpu() + "-" + resourceEntity.getRam() + "-"
-        + resourceEntity.getDisk());
+        + resourceEntity.getDisk() + "-" + instanceEntity.getId());
     command.add("--storagectl");
-    command.add("IDE Controller");
+    command.add("SATA Controller");
+    command.add("--port");
+    command.add("0");
+    command.add("--device");
+    command.add("0");
+    command.add("--type");
+    command.add("hdd");
+    command.add("--medium");
+    command.add(vdiFilePath);
+
+    if (!command.isEmpty()) {
+      processBuilder.command(command);
+      process = processBuilder.start();
+      printProcessOutput(process);
+      command.clear();
+    } else {
+      System.out.println("La lista de comandos está vacía, no se puede iniciar el proceso");
+    }
+
+    command.clear();
+
+    // Configurar el orden de arranque para arrancar desde el disco duro, DVD y Floppy
+    command.add("VBoxManage");
+    command.add("modifyvm");
+    command.add("Ubuntu_" + resourceEntity.getCpu() + "-" + resourceEntity.getRam() + "-"
+        + resourceEntity.getDisk() + "-" + instanceEntity.getId());
+    command.add("--boot1");
+    command.add("disk");
+    command.add("--boot2");
+    command.add("dvd");
+    command.add("--boot3");
+    command.add("floppy");
+    command.add("--boot4");
+    command.add("none");
+
+
+    if (!command.isEmpty()) {
+      processBuilder.command(command);
+      process = processBuilder.start();
+      printProcessOutput(process);
+      command.clear();
+    } else {
+      System.out.println("La lista de comandos está vacía, no se puede iniciar el proceso");
+    }
+
+
+    // Adjuntar el archivo ISO a la máquina virtual
+    String isoFilePath = vmEntity.getIso(); // Reemplaza esto con la ruta a tu archivo
+                                            // ISO
+
+    command.add("VBoxManage");
+    command.add("storageattach");
+    command.add("Ubuntu_" + resourceEntity.getCpu() + "-" + resourceEntity.getRam() + "-"
+        + resourceEntity.getDisk() + "-" + instanceEntity.getId());
+    command.add("--storagectl");
+    command.add("IDE Controller"); // Cambiado de "IDE Controller" a "SATA Controller"
     command.add("--port");
     command.add("1");
     command.add("--device");
@@ -85,11 +191,12 @@ public class VBoxManage {
     command.add("--type");
     command.add("dvddrive");
     command.add("--medium");
-    command.add(vmEntity.getIso());
-
+    command.add(isoFilePath);
     processBuilder.command(command);
     process = processBuilder.start();
     printProcessOutput(process);
+    command.clear();
+
   }
 
   private void printProcessOutput(Process process) throws IOException, InterruptedException {
