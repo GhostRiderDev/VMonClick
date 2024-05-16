@@ -9,12 +9,14 @@ import com.tds.VMonClick.VMonClick.model.VmEntity;
 import com.tds.VMonClick.VMonClick.repository.InstanceRepository;
 import com.tds.VMonClick.VMonClick.repository.ResourceRepository;
 import com.tds.VMonClick.VMonClick.repository.VmRepository;
+import lombok.extern.slf4j.Slf4j;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Slf4j
 public class InstanceService {
 
   @Autowired
@@ -36,6 +38,9 @@ public class InstanceService {
     instance.setDate_finished(null);
 
     var vmEntity = vmRepository.findById(instance.getIdVM()).get();
+
+   
+
     ResourceEntity resourceEntity = resourceRepository.findById(instance.getIdRsc()).get();
 
 
