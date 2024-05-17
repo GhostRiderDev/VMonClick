@@ -5,18 +5,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.tds.VMonClick.VMonClick.model.InstanceEntity;
 import com.tds.VMonClick.VMonClick.model.ResourceEntity;
-import com.tds.VMonClick.VMonClick.model.VmEntity;
 import com.tds.VMonClick.VMonClick.repository.InstanceRepository;
 import com.tds.VMonClick.VMonClick.repository.ResourceRepository;
 import com.tds.VMonClick.VMonClick.repository.VmRepository;
-import lombok.extern.slf4j.Slf4j;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@Slf4j
 public class InstanceService {
 
   @Autowired
@@ -39,10 +36,7 @@ public class InstanceService {
 
     var vmEntity = vmRepository.findById(instance.getIdVM()).get();
 
-   
-
     ResourceEntity resourceEntity = resourceRepository.findById(instance.getIdRsc()).get();
-
 
     var instanceDB = instanceRepository.save(instance);
     List<InstanceEntity> instancesToSave = new ArrayList<>(getAllInstances());
@@ -58,7 +52,11 @@ public class InstanceService {
   }
 
   public List<InstanceEntity> getAllInstances() {
-    return instanceRepository.findAll();
+    return instanceRepository.findAll().stream().sorted((i1, i2) -> {
+      var date1 = LocalDateTime.from(i1.getDateCreated());
+      var date2 = LocalDateTime.from(i2.getDateCreated());
+      return date2.compareTo(date1);
+    }).toList();
   }
 
   public void updateInstance(String id, InstanceEntity instance) {
@@ -75,4 +73,13 @@ public class InstanceService {
     instanceRepository.deleteById(id);
   }
 
+  public void startInstance(String id) throws IOException, InterruptedException {
+    var instance = instanceRepository.findById(id).get();
+    if (instance == null) {
+      return;
+    }
+    var resource = resourceRepository.findById(instance.getIdRsc()).get();
+    var vm = vmRepository.findById(instance.getIdVM()).get();
+    vBoxManage.startVMInstance(vm, resource, instance);
+  }
 }

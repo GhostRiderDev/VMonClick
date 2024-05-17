@@ -1,7 +1,6 @@
 package com.tds.VMonClick.VMonClick.model;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 import org.springframework.data.cassandra.core.mapping.CassandraType;
 import org.springframework.data.cassandra.core.mapping.Column;
 import org.springframework.data.cassandra.core.mapping.PrimaryKey;
@@ -11,7 +10,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 
 @Table("instance")
 @UserDefinedType("instance")

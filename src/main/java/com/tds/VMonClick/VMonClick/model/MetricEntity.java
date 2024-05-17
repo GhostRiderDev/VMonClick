@@ -6,12 +6,15 @@ import org.springframework.data.cassandra.core.mapping.CassandraType;
 import org.springframework.data.cassandra.core.mapping.Column;
 import org.springframework.data.cassandra.core.mapping.PrimaryKey;
 import org.springframework.data.cassandra.core.mapping.Table;
+import org.springframework.data.cassandra.core.mapping.UserDefinedType;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Table(value = "Metric")
+@Table(value = "metric")
+// @UserDefinedType("metric")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -36,4 +39,6 @@ public class MetricEntity {
   @Column("date_registered")
   private LocalDateTime dateRegistered;
 
+  @Column("id_instance")
+  private String idInstance;
 }

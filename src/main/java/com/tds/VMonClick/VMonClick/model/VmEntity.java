@@ -8,9 +8,7 @@ import org.springframework.data.cassandra.core.mapping.CassandraType;
 import org.springframework.data.cassandra.core.mapping.Column;
 import org.springframework.data.cassandra.core.mapping.PrimaryKey;
 import org.springframework.data.cassandra.core.mapping.Table;
-import lombok.Builder;
 import lombok.Data;
-import lombok.Generated;
 import lombok.NoArgsConstructor;
 
 @Table(value = "VM")
@@ -30,7 +28,6 @@ public class VmEntity {
   private Date dateCreated;
 
   @Column
-  @CassandraType(type = CassandraType.Name.LIST, typeArguments = {CassandraType.Name.UDT},
-      userTypeName = "instance")
+  @CassandraType(type = CassandraType.Name.LIST, typeArguments = { CassandraType.Name.UDT }, userTypeName = "instance")
   private List<InstanceEntity> instances = new ArrayList<>();
 }

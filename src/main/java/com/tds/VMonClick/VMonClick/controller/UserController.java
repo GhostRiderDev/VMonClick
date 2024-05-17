@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import com.tds.VMonClick.VMonClick.dto.UserDto;
 import com.tds.VMonClick.VMonClick.service.UserService;
+import com.typesafe.config.ConfigException.Null;
+
 import jakarta.validation.Valid;
 
 @RestController
@@ -47,7 +49,6 @@ public class UserController {
         }
     }
 
-
     @GetMapping("/{id}")
     public ResponseEntity<UserDto> getUser(@Valid @PathVariable("id") String uuid) {
         try {
@@ -57,7 +58,6 @@ public class UserController {
                     "Unavailable server");
         }
     }
-
 
     @PutMapping("/{id}")
     public ResponseEntity<UserDto> updateUser(@Valid @PathVariable("id") String uuid,
@@ -71,7 +71,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity updateUser(@Valid @PathVariable("id") String uuid) {
+    public ResponseEntity<Null> updateUser(@Valid @PathVariable("id") String uuid) {
         try {
             userService.deleteUser(uuid);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -80,7 +80,5 @@ public class UserController {
                     "Unavailable server");
         }
     }
-
-
 
 }

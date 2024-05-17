@@ -5,9 +5,9 @@ spring:
   cassandra:
     keyspace-name: "kp"
     contact-points:
-      - "node-0.aws-sa-east-1.575f197665f85a77a519.clusters.scylla.cloud"
-      - "node-1.aws-sa-east-1.575f197665f85a77a519.clusters.scylla.cloud"
-      - "node-2.aws-sa-east-1.575f197665f85a77a519.clusters.scylla.cloud"
+      - "18.230.240.141"
+      - "54.207.33.9"
+      - "54.94.24.166"
     schema-action: CREATE_IF_NOT_EXISTS
     username: scylla
     password: vFgcj9k4StLZ1OU
@@ -20,6 +20,9 @@ spring:
 
 server:
   port: 8080
+
+
+#! neo4j: r@@t12345
 
 springdoc:
   swagger-ui:

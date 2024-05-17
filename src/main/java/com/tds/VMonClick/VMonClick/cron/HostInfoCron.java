@@ -19,8 +19,7 @@ public class HostInfoCron {
 
     try {
       Process processDisk = processBuilderDisk.start();
-      BufferedReader readerDisk =
-          new BufferedReader(new InputStreamReader(processDisk.getInputStream()));
+      BufferedReader readerDisk = new BufferedReader(new InputStreamReader(processDisk.getInputStream()));
 
       String lineDisk;
       while ((lineDisk = readerDisk.readLine()) != null) {
@@ -57,7 +56,8 @@ public class HostInfoCron {
         if (line.contains("Memory available")) {
           String[] lineram = line.split(":");
           var ram = Integer.parseInt(lineram[1].trim().split(" ")[0]);
-          hostRsc.setRam(ram);;
+          hostRsc.setRam(ram);
+          ;
         }
         if (line.contains("Processor online count")) {
           String[] lineCpu = line.split(":");
