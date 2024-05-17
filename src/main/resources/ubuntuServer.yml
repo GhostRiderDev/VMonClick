@@ -1,0 +1,11 @@
+autoinstall:
+  version: 1
+  identity:
+    hostname: ubuntu-server
+    username: ubuntu
+    password: $6$exAmP1e$KkIm9adiCCesKq8U9AiwlBhckj6kDoWVqPrQnUcD1I8IS3TPKg9kXp3ZRZ.UK/5.0jC.8O6WnB3BhDyQSX26P1/
+  ssh:
+    install-server: true
+  packages:
+    - openssh-server
+    - build-essential

@@ -3,14 +3,11 @@ package com.tds.VMonClick.VMonClick.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.tds.VMonClick.VMonClick.model.ResourceEntity;
-import com.tds.VMonClick.VMonClick.repository.HostRscRepository;
 import com.tds.VMonClick.VMonClick.repository.ResourceRepository;
-import lombok.extern.slf4j.Slf4j;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
-@Slf4j
 public class ResourceService {
 
   @Autowired

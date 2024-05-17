@@ -2,7 +2,6 @@ package com.tds.VMonClick.VMonClick.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,9 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.tds.VMonClick.VMonClick.model.InstanceEntity;
 import com.tds.VMonClick.VMonClick.service.InstanceService;
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/instances")
@@ -51,5 +48,10 @@ public class InstanceController {
   @DeleteMapping("/{id}")
   public void deleteInstance(@PathVariable String id) {
     instanceService.deleteInstanceById(id);
+  }
+
+  @PostMapping("/{id}/start")
+  public void startInstance(@PathVariable String id) throws IOException, InterruptedException {
+    instanceService.startInstance(id);
   }
 }

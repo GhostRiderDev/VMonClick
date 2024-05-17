@@ -13,9 +13,9 @@ import com.tds.VMonClick.VMonClick.model.Role;
 import com.tds.VMonClick.VMonClick.model.UserEntity;
 import com.tds.VMonClick.VMonClick.repository.UserRepository;
 
-
 @Service
 public class UserService {
+
     @Autowired
     private UserRepository userRepository;
 
@@ -45,7 +45,6 @@ public class UserService {
         }
         return UserMapper.DBtoDto(userDB.get());
     }
-
 
     public UserDto updateUser(String id, UserDto userDto) {
         var userDB = userRepository.findById(UUID.fromString(id));

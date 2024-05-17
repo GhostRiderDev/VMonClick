@@ -19,12 +19,13 @@ public class VBoxManage {
 
 
 
+    var vmName = "Ubuntu_" + resourceEntity.getCpu() + "-" + resourceEntity.getRam() + "-"
+        + resourceEntity.getDisk() + "-" + instanceEntity.getId();
     // Crear la máquina virtual
     command.add("VBoxManage");
     command.add("createvm");
     command.add("--name");
-    command.add("Ubuntu_" + resourceEntity.getCpu() + "-" + resourceEntity.getRam() + "-"
-        + resourceEntity.getDisk() + "-" + instanceEntity.getId());
+    command.add(vmName);
     command.add("--register");
     command.add("--ostype");
     command.add("Ubuntu_64");
@@ -39,8 +40,7 @@ public class VBoxManage {
     // Establecer el número de CPUs
     command.add("VBoxManage");
     command.add("modifyvm");
-    command.add("Ubuntu_" + resourceEntity.getCpu() + "-" + resourceEntity.getRam() + "-"
-        + resourceEntity.getDisk() + "-" + instanceEntity.getId());
+    command.add(vmName);
     command.add("--cpus");
     command.add(resourceEntity.getCpu().toString());
     command.add("--memory");
@@ -82,8 +82,7 @@ public class VBoxManage {
 
     command.add("VBoxManage");
     command.add("storagectl");
-    command.add("Ubuntu_" + resourceEntity.getCpu() + "-" + resourceEntity.getRam() + "-"
-        + resourceEntity.getDisk() + "-" + instanceEntity.getId());
+    command.add(vmName);
     command.add("--name");
     command.add("IDE Controller");
     command.add("--add");
@@ -102,8 +101,7 @@ public class VBoxManage {
 
     command.add("VBoxManage");
     command.add("storagectl");
-    command.add("Ubuntu_" + resourceEntity.getCpu() + "-" + resourceEntity.getRam() + "-"
-        + resourceEntity.getDisk() + "-" + instanceEntity.getId());
+    command.add(vmName);
     command.add("--name");
     command.add("SATA Controller");
     command.add("--add");
@@ -125,8 +123,7 @@ public class VBoxManage {
     // Asegúrate de que el disco duro virtual está correctamente conectado
     command.add("VBoxManage");
     command.add("storageattach");
-    command.add("Ubuntu_" + resourceEntity.getCpu() + "-" + resourceEntity.getRam() + "-"
-        + resourceEntity.getDisk() + "-" + instanceEntity.getId());
+    command.add(vmName);
     command.add("--storagectl");
     command.add("SATA Controller");
     command.add("--port");
@@ -152,8 +149,7 @@ public class VBoxManage {
     // Configurar el orden de arranque para arrancar desde el disco duro, DVD y Floppy
     command.add("VBoxManage");
     command.add("modifyvm");
-    command.add("Ubuntu_" + resourceEntity.getCpu() + "-" + resourceEntity.getRam() + "-"
-        + resourceEntity.getDisk() + "-" + instanceEntity.getId());
+    command.add(vmName);
     command.add("--boot1");
     command.add("disk");
     command.add("--boot2");
@@ -177,11 +173,9 @@ public class VBoxManage {
     // Adjuntar el archivo ISO a la máquina virtual
     String isoFilePath = vmEntity.getIso(); // Reemplaza esto con la ruta a tu archivo
                                             // ISO
-
     command.add("VBoxManage");
     command.add("storageattach");
-    command.add("Ubuntu_" + resourceEntity.getCpu() + "-" + resourceEntity.getRam() + "-"
-        + resourceEntity.getDisk() + "-" + instanceEntity.getId());
+    command.add(vmName);
     command.add("--storagectl");
     command.add("IDE Controller"); // Cambiado de "IDE Controller" a "SATA Controller"
     command.add("--port");
@@ -197,6 +191,40 @@ public class VBoxManage {
     printProcessOutput(process);
     command.clear();
 
+  }
+
+  public void startVMInstance(VmEntity vmEntity, ResourceEntity resourceEntity,
+      InstanceEntity instanceEntity) throws IOException, InterruptedException {
+    var command = new ArrayList<String>();
+    ProcessBuilder processBuilder = new ProcessBuilder();
+    var vmName = "Ubuntu_" + resourceEntity.getCpu() + "-" + resourceEntity.getRam() + "-"
+        + resourceEntity.getDisk() + "-" + instanceEntity.getId();
+    command.add("VBoxManage");
+    command.add("unattended");
+    command.add("install");
+    command.add(vmName);
+
+    command.add("--user");
+    command.add("ubuntu");
+    command.add("--password");
+    command.add("ubuntu");
+    command.add("--country");
+    command.add("US");
+    command.add("--time-zone");
+    command.add("PST");
+    command.add("--hostname");
+    command.add("ubuntu-server.localdomain");
+    command.add("--iso");
+    command.add(vmEntity.getIso());
+    command.add("--locale");
+    command.add("en_US");
+    command.add("--start-vm");
+    command.add("headless");
+
+    processBuilder.command(command);
+    Process process = processBuilder.start();
+
+    printProcessOutput(process);
   }
 
   private void printProcessOutput(Process process) throws IOException, InterruptedException {
