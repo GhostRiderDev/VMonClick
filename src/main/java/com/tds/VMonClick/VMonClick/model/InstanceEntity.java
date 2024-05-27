@@ -12,7 +12,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Table("instance")
-@UserDefinedType("instance")
+// @UserDefinedType("instance")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

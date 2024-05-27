@@ -1,10 +1,12 @@
 package com.tds.VMonClick.VMonClick.service;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 import org.springframework.stereotype.Service;
 import com.tds.VMonClick.VMonClick.model.InstanceEntity;
 import com.tds.VMonClick.VMonClick.model.ResourceEntity;
@@ -46,7 +48,8 @@ public class VBoxManage {
     command.add("--memory");
     command.add(resourceEntity.getRam().toString());
     command.add("--graphicscontroller");
-    command.add("vmsvga");
+    // ! command.add("vmsvga");
+    command.add("VBoxSVGA");
     // command.add("--nic1");
     // command.add("bridged");
 
@@ -203,23 +206,24 @@ public class VBoxManage {
     command.add("unattended");
     command.add("install");
     command.add(vmName);
-
+    command.add("--iso");
+    command.add(vmEntity.getIso());
     command.add("--user");
-    command.add("ubuntu");
+    command.add("admin");
     command.add("--password");
-    command.add("ubuntu");
+    command.add("admin");
+    command.add("--full-user-name");
+    command.add("admin");
+    command.add("--install-additions");
+    command.add("--locale");
+    command.add("en_US");
     command.add("--country");
     command.add("US");
     command.add("--time-zone");
     command.add("PST");
-    command.add("--hostname");
-    command.add("ubuntu-server.localdomain");
-    command.add("--iso");
-    command.add(vmEntity.getIso());
-    command.add("--locale");
-    command.add("en_US");
     command.add("--start-vm");
     command.add("headless");
+
 
     processBuilder.command(command);
     Process process = processBuilder.start();
