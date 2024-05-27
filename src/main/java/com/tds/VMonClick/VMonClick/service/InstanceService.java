@@ -39,9 +39,7 @@ public class InstanceService {
     ResourceEntity resourceEntity = resourceRepository.findById(instance.getIdRsc()).get();
 
     var instanceDB = instanceRepository.save(instance);
-    List<InstanceEntity> instancesToSave = new ArrayList<>(getAllInstances());
-    instancesToSave.add(instanceDB);
-    vmEntity.setInstances(instancesToSave);
+
     vmRepository.save(vmEntity);
     vBoxManage.createVM(vmEntity, resourceEntity, instanceDB);
     return instanceDB;
