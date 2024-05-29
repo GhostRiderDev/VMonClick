@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import com.tds.VMonClick.VMonClick.model.HostRscEntity;
+import java.lang.management.ManagementFactory;
+import com.sun.management.OperatingSystemMXBean;
 
 public class HostInfoCron {
   public static Double freeDisk() {
@@ -19,7 +21,8 @@ public class HostInfoCron {
 
     try {
       Process processDisk = processBuilderDisk.start();
-      BufferedReader readerDisk = new BufferedReader(new InputStreamReader(processDisk.getInputStream()));
+      BufferedReader readerDisk =
+          new BufferedReader(new InputStreamReader(processDisk.getInputStream()));
 
       String lineDisk;
       while ((lineDisk = readerDisk.readLine()) != null) {
@@ -56,15 +59,13 @@ public class HostInfoCron {
         if (line.contains("Memory available")) {
           String[] lineram = line.split(":");
           var ram = Integer.parseInt(lineram[1].trim().split(" ")[0]);
-          hostRsc.setRam(ram);
-          ;
+          hostRsc.setRam(ram);;
         }
-        if (line.contains("Processor online count")) {
-          String[] lineCpu = line.split(":");
-          var cpu = Integer.parseInt(lineCpu[1].trim());
-          hostRsc.setCpu(cpu);
-        }
+
       }
+      OperatingSystemMXBean osBean =
+          ManagementFactory.getPlatformMXBean(OperatingSystemMXBean.class);
+      hostRsc.setCpu((int) (osBean.getSystemCpuLoad() * 100));
 
       int exitCode = process.waitFor();
       if (exitCode == 0) {

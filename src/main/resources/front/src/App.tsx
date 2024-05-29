@@ -1,35 +1,103 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import "./App.css";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Filler,
+  Legend,
+  scales,
+} from "chart.js";
+import { useEffect, useState } from "react";
+import { Line } from "react-chartjs-2";
+import { getHostMetrics } from "./services/hostMetrics";
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Filler,
+  Legend
+);
+
+export const options = {
+  responsive: true,
+  plugins: {
+    legend: {
+      position: "top" as const,
+    },
+    title: {
+      display: true,
+      text: "Informacion del host",
+    },
+  },
+  scales: {
+    y: {
+      beginAtZero: true,
+    },
+  },
+  
+};
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [data, setData] = useState<any[]>([]);
+  const [dataToChart, setDataToChart] = useState<any[]>([]);
 
+  useEffect(() => {
+    getHostMetrics().then((metrics) => {
+      setData(
+        metrics.sort((a, b) => {
+          const dateNum =
+            new Date(a.dateRegistered).getTime() -
+            new Date(b.dateRegistered).getTime();
+          return dateNum;
+        })
+      );
+      const tranformData = metrics.slice(metrics.length - 10, metrics.length);
+      setDataToChart(tranformData);
+      console.log("******DATA********", tranformData);
+    });
+  }, []);
+
+  const labels = dataToChart.map((metric) => metric.dateRegistered);
+
+  const dataChart = {
+    labels,
+    datasets: [
+      {
+        fill: true,
+        label: "RAM",
+        data: dataToChart.map((metric) => metric.ram / 1024),
+        borderColor: "yellow",
+        backgroundColor: "rgba(255, 255, 0, 0.5)",
+      },
+      {
+        fill: true,
+        label: "CPU",
+        data: dataToChart.map((metric) => metric.cpu),
+        borderColor: "red",
+        backgroundColor: "rgba(255, 99, 132, 0.5)",
+      },
+      {
+        fill: true,
+        label: "Disk",
+        data: dataToChart.map((metric) => metric.disk),
+        borderColor: "rgb(75, 192, 192)",
+        backgroundColor: "rgba(75, 192, 192, 0.5)",
+      },
+    ],
+  };
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div className="h-[50vh]  overflow-hidden">
+      <Line options={options} data={dataChart} />;
+    </div>
+  );
 }
 
-export default App
+export default App;
