@@ -9,7 +9,6 @@ import {
   Tooltip,
   Filler,
   Legend,
-  scales,
 } from "chart.js";
 import { useEffect, useState } from "react";
 import { Line } from "react-chartjs-2";
@@ -30,7 +29,7 @@ export const options = {
   responsive: true,
   plugins: {
     legend: {
-      position: "top" as const,
+      position: "top",
     },
     title: {
       display: true,
@@ -42,7 +41,6 @@ export const options = {
       beginAtZero: true,
     },
   },
-  
 };
 
 function App() {
