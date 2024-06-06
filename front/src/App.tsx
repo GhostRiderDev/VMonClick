@@ -13,6 +13,7 @@ import {
 import { useEffect, useState } from "react";
 import { Line } from "react-chartjs-2";
 import { getHostMetrics } from "./services/hostMetrics";
+import { Route, Routes } from "react-router-dom";
 
 ChartJS.register(
   CategoryScale,
@@ -28,9 +29,6 @@ ChartJS.register(
 export const options = {
   responsive: true,
   plugins: {
-    legend: {
-      position: "top",
-    },
     title: {
       display: true,
       text: "Informacion del host",
@@ -94,6 +92,10 @@ function App() {
   return (
     <div className="h-[50vh]  overflow-hidden">
       <Line options={options} data={dataChart} />;
+      <Routes>
+        <Route path="/login" element={<p>login</p>} />
+        <Route path="/register" element={<p>register</p>} />
+      </Routes>
     </div>
   );
 }
