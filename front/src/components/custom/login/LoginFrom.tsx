@@ -29,7 +29,7 @@ function LoginFrom() {
                         </div>
                         <div className="w-full flex flex-col justify-center items-center space-y-3  ">
                             <button type="submit" className="w-full bg-blue-500 text-white h-[35px] rounded-md">Ingresar</button>
-                            <a href="/register" className="text-slate-300 text-center hover:text-slate-200">Olvidaste tu contraseña?</a>
+                            <a href="/register" className="text-slate-300 text-center hover:text-slate-200">Registrar Usuario</a>
                         </div>
 
                     </form>
