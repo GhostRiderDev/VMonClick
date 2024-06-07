@@ -1,6 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import LoginFrom from "./components/custom/login/LoginFrom";
 import Register from "./components/custom/register/Register";
+import Menu from "./components/custom/Menu/Principal/Menu";
 function App() {
 
   return (
@@ -8,6 +9,7 @@ function App() {
       <Routes>
         <Route path="/" element={<LoginFrom />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/menu" element={<Menu />} />
       </Routes>
     </>
 
@@ -15,7 +17,3 @@ function App() {
 }
 
 export default App;
-// <div className="w-full h-screen  flex justify-center items-center bg-[url(/datacenter.jpg)] bg-cover bg-center" >
-//   <div className=" pt-6"><LoginFrom /></div>
-
-// </div>
