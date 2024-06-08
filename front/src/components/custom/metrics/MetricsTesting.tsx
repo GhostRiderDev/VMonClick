@@ -30,7 +30,7 @@ function MetricsTesting() {
   const cpuData = dataToChart.map((item, index) => ({ x: index, y: item.cpu }));
   const ramData = dataToChart.map((item, index) => ({
     x: index,
-    y: item.ram / 1300,
+    y: item.ram / 1024,
   }));
   const diskData = dataToChart.map((item, index) => ({
     x: index,
