@@ -6,15 +6,12 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.List;
 import org.springframework.stereotype.Service;
 import com.tds.VMonClick.VMonClick.model.InstanceEntity;
 import com.tds.VMonClick.VMonClick.model.ResourceEntity;
 import com.tds.VMonClick.VMonClick.model.VmEntity;
-import lombok.extern.slf4j.Slf4j;
 
 @Service
-@Slf4j
 public class VBoxManage {
   public void createVM(VmEntity vmEntity, ResourceEntity resourceEntity,
       InstanceEntity instanceEntity) throws IOException, InterruptedException {
@@ -28,6 +25,8 @@ public class VBoxManage {
     command.add(idVm);
     command.add("--ostype");
     command.add("Ubuntu_64");
+    command.add("--uuid");
+    command.add(instanceEntity.getId());
     command.add("--register");
 
     ProcessBuilder processBuilder = new ProcessBuilder();
@@ -72,7 +71,8 @@ public class VBoxManage {
     command.add("--filename");
     command.add(vdiFilePath);
     command.add("--size");
-    command.add("20480");
+    int diskSize = ((int) (double) resourceEntity.getDisk()) * 1024;
+    command.add(diskSize + "");
     command.add("--variant");
     command.add("Standard");
 
@@ -163,11 +163,9 @@ public class VBoxManage {
       InstanceEntity instanceEntity) throws IOException, InterruptedException {
     var command = new ArrayList<String>();
     ProcessBuilder processBuilder = new ProcessBuilder();
-    var vmName = "Ubuntu_" + resourceEntity.getCpu() + "-" + resourceEntity.getRam() + "-"
-        + resourceEntity.getDisk() + "-" + instanceEntity.getId();
     command.add("VBoxManage");
     command.add("startvm");
-    command.add(vmName);
+    command.add(instanceEntity.getId());
 
     if (!command.isEmpty()) {
       processBuilder.command(command);
