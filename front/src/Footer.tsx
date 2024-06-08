@@ -1,11 +1,13 @@
 import { Link } from "react-router-dom";
 function Footer() {
     return (
-        <footer className="bg-[#0a0a0aec] text-white py-8">
+        <footer className="bg-slate-900 text-white py-8 border-t border-slate-800">
             <div className="container mx-auto px-4 flex flex-col md:flex-row items-center justify-between">
                 <div className="flex items-center space-x-4">
+
                     <div className="text-2xl font-bold">
-                        <MountainIcon className="h-8 w-8 text-blue-500" />
+
+                        <Link to="https://github.com/cos4h/VMonClick"> <MountainIcon className="h-8 w-8 text-blue-500 hover:text-blue-600" /></Link>
                         <span className="sr-only">VM Manager</span>
                     </div>
                     <div className="space-x-4">
