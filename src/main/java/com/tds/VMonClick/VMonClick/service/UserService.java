@@ -5,6 +5,10 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import com.tds.VMonClick.VMonClick.dto.UserDto;
@@ -12,9 +16,25 @@ import com.tds.VMonClick.VMonClick.mapper.UserMapper;
 import com.tds.VMonClick.VMonClick.model.Role;
 import com.tds.VMonClick.VMonClick.model.UserEntity;
 import com.tds.VMonClick.VMonClick.repository.UserRepository;
+import com.tds.VMonClick.VMonClick.security.CustomerDetailsService;
+import com.tds.VMonClick.VMonClick.security.jwt.JwtFilter;
+import com.tds.VMonClick.VMonClick.security.jwt.JwtUtil;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
+@Slf4j
 public class UserService {
+
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private CustomerDetailsService customerDetailsService;
+
+    @Autowired
+    private JwtUtil jwtUtil;
+
 
     @Autowired
     private UserRepository userRepository;
@@ -24,10 +44,10 @@ public class UserService {
         return users.stream().map(UserMapper::DBtoDto).toList();
     }
 
-    public UserDto createUser(UserDto user) {
+    public String createUser(UserDto user) {
         var userDB = userRepository.findOneByEmail(user.getEmail());
         if (userDB.isPresent()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User already exist");
+            return "User already exists";
         }
         UserEntity userEntity = UserMapper.dtoToDB(user);
         userEntity.setId(UUID.randomUUID());
@@ -35,7 +55,7 @@ public class UserService {
         userEntity.setRole(Role.USER);
         userEntity = userRepository.save(userEntity);
         user = UserMapper.DBtoDto(userEntity);
-        return user;
+        return "User created";
     }
 
     public UserDto getUser(String id) {
@@ -44,6 +64,25 @@ public class UserService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found user");
         }
         return UserMapper.DBtoDto(userDB.get());
+    }
+
+    public ResponseEntity login(UserDto user) {
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword()));
+
+            if (authentication.isAuthenticated()) {
+
+                return new ResponseEntity<String>("{\"token\":\""
+                        + jwtUtil.generateToken(customerDetailsService.getUserDetail().getEmail(),
+                                customerDetailsService.getUserDetail().getRole().toString())
+                        + "\"}", HttpStatus.OK);
+            }
+        } catch (Exception exception) {
+            log.error("{}", exception);
+        }
+        return new ResponseEntity<String>("{\"mensaje\":\"" + " Credenciales incorrectas " + "\"}",
+                HttpStatus.BAD_REQUEST);
     }
 
     public UserDto updateUser(String id, UserDto userDto) {

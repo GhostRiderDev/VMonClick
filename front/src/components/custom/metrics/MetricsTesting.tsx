@@ -27,15 +27,15 @@ function MetricsTesting() {
         });
     }, []);
 
-    const cpuData = dataToChart.map((item, index) => ({ x: index, y: item.cpu }));
-    const ramData = dataToChart.map((item, index) => ({
-        x: index,
-        y: item.ram / 1300,
-    }));
-    const diskData = dataToChart.map((item, index) => ({
-        x: index,
-        y: item.disk,
-    }));
+  const cpuData = dataToChart.map((item, index) => ({ x: index, y: item.cpu }));
+  const ramData = dataToChart.map((item, index) => ({
+    x: index,
+    y: item.ram / 1024,
+  }));
+  const diskData = dataToChart.map((item, index) => ({
+    x: index,
+    y: item.disk,
+  }));
 
     return (
         <div className="flex flex-col bg-sky-300 dark:bg-gray-800 rounded-md">

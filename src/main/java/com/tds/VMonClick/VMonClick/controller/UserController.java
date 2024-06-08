@@ -25,28 +25,33 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping()
+    @GetMapping()
     public ResponseEntity<List<UserDto>> getAllUsers() {
         try {
             return ResponseEntity.ok().body(userService.getAllUsers());
         } catch (Exception e) {
-            System.out.println("HAY UN ERROR****************+");
-            throw e;
-            // throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
-            // "Unavailable server");
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+                    "Unavailable server");
         }
     }
 
-    @PostMapping()
-    public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto user) {
+    @PostMapping("/login")
+    public ResponseEntity login(@RequestBody UserDto user) {
         try {
-            return ResponseEntity.ok().body(userService.createUser(user));
+            return userService.login(user);
         } catch (Exception e) {
-            System.out.println("HAY UN ERROR****************+");
-            throw e;
-            // throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
-            // "Unavailable server");
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+                    "Unavailable server");
         }
+    }
+
+    @PostMapping("/signup")
+    public ResponseEntity<String> createUser(@Valid @RequestBody UserDto user) {
+        var response = userService.createUser(user);
+        if (response.equals("User already exists")) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
+        }
+        return ResponseEntity.ok().body(response);
     }
 
     @GetMapping("/{id}")
