@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import org.springframework.stereotype.Service;
 import com.tds.VMonClick.VMonClick.model.InstanceEntity;
 import com.tds.VMonClick.VMonClick.model.ResourceEntity;
@@ -228,20 +230,76 @@ public class VBoxManage {
       System.out.println("Process executed successfully");
   }
 
-  public void getMetricsInstance() {
+  public Map<String, Integer> getMetricsInstance(String idInstance) {
     var command = new ArrayList<String>();
     ProcessBuilder processBuilder = new ProcessBuilder();
     command.add("VBoxManage");
     command.add("metrics");
+    command.add("collect");
+    command.add(idInstance);
+    try {
+      processBuilder.command(command);
+      processBuilder.start();
+      command.clear();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+    command.add("VBoxManage");
+    command.add("metrics");
     command.add("query");
-    command.add("3395d479-bb56-4c8d-9f23-025561b70231");
+    command.add(idInstance);
     command.add("CPU/Load/User,RAM/Usage/Used,Disk/Usage/Used,Net/Rate/Tx,Net/Rate/Rx");
+
+
+
+    String cpuLoadUser = null;
+    String ramUsageUsed = null;
+    String diskUsageUsed = null;
+    String netRateTx = null;
+    String netRateRx = null;
+    Map<String, Integer> metrics = new HashMap<>();
+
+
+
     try {
       processBuilder.command(command);
       Process process = processBuilder.start();
-      printProcessOutput(process);
-    } catch (IOException | InterruptedException e) {
+      BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+
+      String line;
+      while ((line = reader.readLine()) != null) {
+        if (line.contains("CPU/Load/User")) {
+          cpuLoadUser = line.split("\\s+")[2].split("%")[0];
+        } else if (line.contains("RAM/Usage/Used")) {
+          ramUsageUsed = line.split("\\s+")[2];
+        } else if (line.contains("Disk/Usage/Used")) {
+          diskUsageUsed = line.split("\\s+")[2];
+        } else if (line.contains("Net/Rate/Tx")) {
+          netRateTx = line.split("\\s+")[2];
+        } else if (line.contains("Net/Rate/Rx")) {
+          netRateRx = line.split("\\s+")[2];
+        }
+      }
+      int cpuFormat = (int) ((double) Double.parseDouble(cpuLoadUser) * 100);
+      int ramFormat = Integer.parseInt(ramUsageUsed);
+      int diskFormat = (int) (double) Double.parseDouble(diskUsageUsed);
+      int netRateTxFormat = (int) (double) Double.parseDouble(netRateTx);
+      int netRateRxFormat = (int) (double) Double.parseDouble(netRateRx);
+      System.out.println("CPU/Load/User: " + cpuFormat);
+      System.out.println("RAM/Usage/Used: " + ramFormat);
+      System.out.println("Disk/Usage/Used: " + diskFormat);
+      System.out.println("Net/Rate/Tx: " + netRateTxFormat);
+      System.out.println("Net/Rate/Rx: " + netRateRxFormat);
+      metrics.put("CPU", cpuFormat);
+      metrics.put("RAM", ramFormat);
+      metrics.put("DISK", diskFormat);
+      metrics.put("NET_TX", netRateTxFormat);
+      metrics.put("NET_RX", netRateRxFormat);
+    } catch (IOException e) {
       e.printStackTrace();
     }
+    return metrics;
+
   }
 }

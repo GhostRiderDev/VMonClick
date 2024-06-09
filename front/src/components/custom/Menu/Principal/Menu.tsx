@@ -7,8 +7,10 @@ import { FaHandsHelping } from "react-icons/fa";
 import { useState } from "react";
 import Footer from "@/Footer";
 
+
 function Menu() {
     const [currentPage, setCurrentPage] = useState("Inicio");
+
     return (
         <div className=" bg-slate-900  w-full">
             <div className=" flex flex-col top-0 left-0 right-0 z-50 w-full">
