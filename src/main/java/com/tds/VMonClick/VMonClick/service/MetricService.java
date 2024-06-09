@@ -15,6 +15,9 @@ public class MetricService {
   @Autowired
   private MetricRepository metricRepository;
 
+  @Autowired
+  private VBoxManage vboxManage;
+
   public List<MetricEntity> getMetrics() {
     return metricRepository.findAll();
   }
@@ -24,7 +27,8 @@ public class MetricService {
   }
 
   public MetricEntity getMetric(String id) throws BadRequestException {
-    return metricRepository.findById(UUID.fromString(id)).orElseThrow(() -> new BadRequestException());
+    return metricRepository.findById(UUID.fromString(id))
+        .orElseThrow(() -> new BadRequestException());
   }
 
   public MetricEntity saveMetric(MetricEntity metric) {
@@ -33,5 +37,9 @@ public class MetricService {
 
   public void deleteMetric(String id) {
     metricRepository.deleteById(UUID.fromString(id));
+  }
+
+  public void saveMetricsIntance() {
+    vboxManage.getMetricsInstance();
   }
 }

@@ -34,7 +34,8 @@ public class SecurityConfig {
                         request -> new CorsConfiguration().applyPermitDefaultValues()))
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(requests -> requests
-                        .requestMatchers("/users/login", "/users/signup", "/users/forgotPassword")
+                        .requestMatchers("/users/login", "/users/signup", "/users/forgotPassword",
+                                "/api", "/swagger-ui/**", "/v3/api-docs/**")
                         .permitAll().anyRequest().authenticated())
                 .exceptionHandling(withDefaults()).sessionManagement(management -> management
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
