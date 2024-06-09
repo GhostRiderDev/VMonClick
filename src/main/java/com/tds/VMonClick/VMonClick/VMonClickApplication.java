@@ -49,7 +49,7 @@ public class VMonClickApplication {
 
 
 
-    @Scheduled(fixedRate = 30000) // 30 seconds
+    @Scheduled(fixedRate = 15000) // 15 seconds
     public void fetchMetricInstances() {
         metricService.saveMetricsIntance();
     }
