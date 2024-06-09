@@ -27,13 +27,6 @@ public class VMonClickApplication {
         SpringApplication.run(VMonClickApplication.class, args);
     }
 
-    // @Bean
-    // public CommandLineRunner commandLineRunner() {
-    // return args -> {
-    // fetchHostResources();
-    // fetchMetricInstances();
-    // };
-    // }
 
     @Scheduled(fixedRate = 30000) // 30 seconds
     public void fetchHostResources() {
