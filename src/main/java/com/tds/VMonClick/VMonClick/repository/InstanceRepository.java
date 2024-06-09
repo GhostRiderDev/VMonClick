@@ -11,4 +11,7 @@ public interface InstanceRepository extends CassandraRepository<InstanceEntity, 
 
   @Query("SELECT id, is_stop FROM instance WHERE is_stop=false AND is_finish=false ALLOW FILTERING")
   public List<InstanceEntity> findIntancesActive();
+
+  @Query("SELECT * FROM instance WHERE id_user=?0 ALLOW FILTERING")
+  public List<InstanceEntity> findByIdUser(String idUser);
 }

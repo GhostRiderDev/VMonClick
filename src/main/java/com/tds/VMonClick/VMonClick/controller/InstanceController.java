@@ -33,6 +33,11 @@ public class InstanceController {
     return instanceService.getInstanceById(id);
   }
 
+  @GetMapping("/user/{id}")
+  public List<InstanceEntity> getInstancesByUser(@PathVariable("id") String idUser) {
+    return instanceService.getInstancesByUser(idUser);
+  }
+
   @PutMapping("/{id}/stop")
   public ResponseEntity<String> stopInstance(@PathVariable("id") String id)
       throws IOException, InterruptedException {
