@@ -19,33 +19,35 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-    @Autowired
-    private JwtFilter jwtFilter;
+        @Autowired
+        private JwtFilter jwtFilter;
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return NoOpPasswordEncoder.getInstance();
-    }
+        @Bean
+        public PasswordEncoder passwordEncoder() {
+                return NoOpPasswordEncoder.getInstance();
+        }
 
-    @Bean
-    protected SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity
-                .cors(cors -> cors.configurationSource(
-                        request -> new CorsConfiguration().applyPermitDefaultValues()))
-                .csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(requests -> requests
-                        .requestMatchers("/users/login", "/users/signup", "/users/forgotPassword",
-                                "/api", "/swagger-ui/**", "/v3/api-docs/**")
-                        .permitAll().anyRequest().authenticated())
-                .exceptionHandling(withDefaults()).sessionManagement(management -> management
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-        httpSecurity.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
-        return httpSecurity.build();
-    }
+        @Bean
+        protected SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity)
+                        throws Exception {
+                httpSecurity.cors(cors -> cors.configurationSource(
+                                request -> new CorsConfiguration().applyPermitDefaultValues()))
+                                .csrf(csrf -> csrf.disable())
+                                .authorizeHttpRequests(requests -> requests
+                                                .requestMatchers("/users/login", "/users/signup",
+                                                                "/users/forgotPassword", "/api",
+                                                                "/swagger-ui/**", "/v3/api-docs/**")
+                                                .permitAll().anyRequest().authenticated())
+                                .exceptionHandling(withDefaults())
+                                .sessionManagement(management -> management.sessionCreationPolicy(
+                                                SessionCreationPolicy.STATELESS));
+                httpSecurity.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+                return httpSecurity.build();
+        }
 
-    @Bean
-    public AuthenticationManager authenticationManager(
-            AuthenticationConfiguration authenticationConfiguration) throws Exception {
-        return authenticationConfiguration.getAuthenticationManager();
-    }
+        @Bean
+        AuthenticationManager authenticationManager(
+                        AuthenticationConfiguration authenticationConfiguration) throws Exception {
+                return authenticationConfiguration.getAuthenticationManager();
+        }
 }
