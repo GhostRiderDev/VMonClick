@@ -2,6 +2,8 @@ package com.tds.VMonClick.VMonClick.service;
 
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import com.tds.VMonClick.VMonClick.model.InstanceEntity;
 import com.tds.VMonClick.VMonClick.model.ResourceEntity;
@@ -10,7 +12,6 @@ import com.tds.VMonClick.VMonClick.repository.ResourceRepository;
 import com.tds.VMonClick.VMonClick.repository.VmRepository;
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -33,6 +34,7 @@ public class InstanceService {
     instance.setDateCreated(LocalDateTime.now());
     instance.setId(UUID.randomUUID().toString());
     instance.setDate_finished(null);
+    instance.setStop(true);
 
     var vmEntity = vmRepository.findById(instance.getIdVM()).get();
 
@@ -57,6 +59,21 @@ public class InstanceService {
     }).toList();
   }
 
+  public ResponseEntity<String> stopInstance(String id) throws IOException, InterruptedException {
+    var instance = instanceRepository.findById(id).get();
+    if (instance == null) {
+      return new ResponseEntity<>("Instance not found", HttpStatus.NOT_FOUND);
+    }
+
+    if (instance.isStop()) {
+      return new ResponseEntity<>("Instance already stopped", HttpStatus.BAD_REQUEST);
+    }
+    vBoxManage.stopVmIntance(instance);
+    instance.setStop(true);
+    instanceRepository.save(instance);
+    return new ResponseEntity<>("Instance stopped", HttpStatus.OK);
+  }
+
   public void updateInstance(String id, InstanceEntity instance) {
     var instanceDB = instanceRepository.findById(id).get();
     if (instanceDB == null) {
@@ -67,17 +84,39 @@ public class InstanceService {
     instanceRepository.save(instance);
   }
 
-  public void deleteInstanceById(String id) {
-    instanceRepository.deleteById(id);
-  }
 
-  public void startInstance(String id) throws IOException, InterruptedException {
+
+  public ResponseEntity<String> startInstance(String id) throws IOException, InterruptedException {
     var instance = instanceRepository.findById(id).get();
     if (instance == null) {
-      return;
+      return new ResponseEntity<>("Instance not found", HttpStatus.NOT_FOUND);
+    }
+    if (instance.isFinish()) {
+      return new ResponseEntity<>("Instance already finished", HttpStatus.BAD_REQUEST);
     }
     var resource = resourceRepository.findById(instance.getIdRsc()).get();
     var vm = vmRepository.findById(instance.getIdVM()).get();
     vBoxManage.startVMInstance(vm, resource, instance);
+    instance.setStop(false);
+    instanceRepository.save(instance);
+    return new ResponseEntity<>("Instance started", HttpStatus.OK);
+  }
+
+  public ResponseEntity<String> deleteInstance(String id) throws IOException, InterruptedException {
+    var instance = instanceRepository.findById(id).get();
+    if (instance == null) {
+      return new ResponseEntity<>("Instance not found", HttpStatus.NOT_FOUND);
+    }
+    if (instance.isFinish()) {
+      return new ResponseEntity<>("Instance already finished", HttpStatus.BAD_REQUEST);
+    }
+    if (!instance.isStop()) {
+      return new ResponseEntity<>("Instance is running, please stop first", HttpStatus.BAD_REQUEST);
+    }
+    vBoxManage.deleteVM(instance);
+    instance.setFinish(true);
+    instance.setDate_finished(LocalDateTime.now());
+    instanceRepository.save(instance);
+    return new ResponseEntity<>("Instance deleted", HttpStatus.NO_CONTENT);
   }
 }

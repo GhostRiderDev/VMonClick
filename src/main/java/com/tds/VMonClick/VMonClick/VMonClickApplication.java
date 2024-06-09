@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import com.tds.VMonClick.VMonClick.service.HostRscService;
+import com.tds.VMonClick.VMonClick.service.MetricService;
 import com.tds.VMonClick.VMonClick.cron.HostInfoCron;
 import com.tds.VMonClick.VMonClick.model.HostRscEntity;;
 
@@ -18,17 +19,21 @@ public class VMonClickApplication {
     @Autowired
     private HostRscService hostRscService;
 
+
+    @Autowired
+    MetricService metricService;
+
     public static void main(String[] args) {
         SpringApplication.run(VMonClickApplication.class, args);
     }
 
-    @Bean
-    public CommandLineRunner commandLineRunner() {
-        return args -> {
-            fetchHostResources();
-        };
-
-    }
+    // @Bean
+    // public CommandLineRunner commandLineRunner() {
+    // return args -> {
+    // fetchHostResources();
+    // fetchMetricInstances();
+    // };
+    // }
 
     @Scheduled(fixedRate = 30000) // 30 seconds
     public void fetchHostResources() {
@@ -42,5 +47,11 @@ public class VMonClickApplication {
         hostRscService.createHostRsc(hostRsc);
     }
 
+
+
+    @Scheduled(fixedRate = 30000) // 30 seconds
+    public void fetchMetricInstances() {
+        metricService.saveMetricsIntance();
+    }
 
 }
