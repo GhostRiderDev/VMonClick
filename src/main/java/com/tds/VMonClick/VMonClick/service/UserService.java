@@ -75,7 +75,8 @@ public class UserService {
 
                 return new ResponseEntity<String>("{\"token\":\""
                         + jwtUtil.generateToken(customerDetailsService.getUserDetail().getEmail(),
-                                customerDetailsService.getUserDetail().getRole().toString())
+                                customerDetailsService.getUserDetail().getRole().toString(),
+                                customerDetailsService.getUserDetail().getId().toString())
                         + "\"}", HttpStatus.OK);
             }
         } catch (Exception exception) {

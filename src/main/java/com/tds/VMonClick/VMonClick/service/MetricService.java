@@ -28,18 +28,16 @@ public class MetricService {
     return metricRepository.findAll();
   }
 
-  // TODO public List<MetricEntity> getMetricsInstance(String idInstance) {
-  // return metricRepository.findByInstance(idInstance);
-  // }
+  public List<MetricEntity> getMetricsInstance(String idInstance) {
+  return metricRepository.findByInstance(idInstance);
+  }
 
   public MetricEntity getMetric(String id) throws BadRequestException {
     return metricRepository.findById(UUID.fromString(id))
         .orElseThrow(() -> new BadRequestException());
   }
 
-  // TODO public MetricEntity getMetricsInstance(String idInstance) {
-  // return metricRepository.findByInstance(idInstance);
-  // }
+  
 
   public MetricEntity saveMetric(MetricEntity metric) {
     return metricRepository.save(metric);

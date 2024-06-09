@@ -6,12 +6,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import com.tds.VMonClick.VMonClick.model.InstanceEntity;
+import com.tds.VMonClick.VMonClick.model.MetricEntity;
 import com.tds.VMonClick.VMonClick.model.ResourceEntity;
 import com.tds.VMonClick.VMonClick.repository.InstanceRepository;
 import com.tds.VMonClick.VMonClick.repository.ResourceRepository;
 import com.tds.VMonClick.VMonClick.repository.VmRepository;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -28,6 +30,9 @@ public class InstanceService {
 
   @Autowired
   private VBoxManage vBoxManage;
+
+  @Autowired
+  private MetricService metricService;
 
   public InstanceEntity saveInstance(InstanceEntity instance)
       throws IOException, InterruptedException {
@@ -47,16 +52,33 @@ public class InstanceService {
     return instanceDB;
   }
 
+  public List<InstanceEntity> getInstancesByUser(String idUser) {
+    List<InstanceEntity> intancesDB = instanceRepository.findByIdUser(idUser);
+    List<InstanceEntity> intancesMetrics = intancesDB.stream().map(instance -> {
+      List<MetricEntity> metricsInstance = metricService.getMetricsInstance(instance.getId());
+      instance.setMetrics(metricsInstance);
+      return instance;
+    }).toList();
+    return intancesMetrics;
+  }
+
+
   public InstanceEntity getInstanceById(String id) {
     return instanceRepository.findById(id).get();
   }
 
   public List<InstanceEntity> getAllInstances() {
-    return instanceRepository.findAll().stream().sorted((i1, i2) -> {
+    List<InstanceEntity> instances = instanceRepository.findAll().stream().sorted((i1, i2) -> {
       var date1 = LocalDateTime.from(i1.getDateCreated());
       var date2 = LocalDateTime.from(i2.getDateCreated());
       return date2.compareTo(date1);
     }).toList();
+    List<InstanceEntity> instancesAddMetrics = instances.stream().map(instance -> {
+      List<MetricEntity> metricsInstance = metricService.getMetricsInstance(instance.getId());
+      instance.setMetrics(metricsInstance);
+      return instance;
+    }).toList();
+    return instancesAddMetrics;
   }
 
   public ResponseEntity<String> stopInstance(String id) throws IOException, InterruptedException {
