@@ -33,6 +33,18 @@ public class InstanceController {
     return instanceService.getInstanceById(id);
   }
 
+  @PutMapping("/{id}/stop")
+  public ResponseEntity<String> stopInstance(@PathVariable("id") String id)
+      throws IOException, InterruptedException {
+    return instanceService.stopInstance(id);
+  }
+
+  @DeleteMapping("/{id}/delete")
+  public ResponseEntity<String> deleteInstance(@PathVariable("id") String id)
+      throws IOException, InterruptedException {
+    return instanceService.deleteInstance(id);
+  }
+
   @PostMapping
   public ResponseEntity<InstanceEntity> saveInstance(@RequestBody InstanceEntity instance)
       throws IOException, InterruptedException {
@@ -45,13 +57,11 @@ public class InstanceController {
     instanceService.updateInstance(id, instanceToUpdate);
   }
 
-  @DeleteMapping("/{id}")
-  public void deleteInstance(@PathVariable String id) {
-    instanceService.deleteInstanceById(id);
-  }
+
 
   @PostMapping("/{id}/start")
-  public void startInstance(@PathVariable String id) throws IOException, InterruptedException {
-    instanceService.startInstance(id);
+  public ResponseEntity<String> startInstance(@PathVariable String id)
+      throws IOException, InterruptedException {
+    return instanceService.startInstance(id);
   }
 }

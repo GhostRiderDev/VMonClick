@@ -177,6 +177,40 @@ public class VBoxManage {
     }
   }
 
+  public void stopVmIntance(InstanceEntity instance) {
+    String idVm = String.format("\"_ubuntu_%s", instance.getId() + "\"");
+    var command = new ArrayList<String>();
+    ProcessBuilder processBuilder = new ProcessBuilder();
+    command.add("VBoxManage");
+    command.add("controlvm");
+    command.add(idVm);
+    command.add("poweroff");
+    processBuilder.command(command);
+    try {
+      Process process = processBuilder.start();
+      printProcessOutput(process);
+    } catch (IOException | InterruptedException e) {
+      e.printStackTrace();
+    }
+  }
+
+  public void deleteVM(InstanceEntity instance) {
+    String idVm = String.format("\"_ubuntu_%s", instance.getId() + "\"");
+    var command = new ArrayList<String>();
+    ProcessBuilder processBuilder = new ProcessBuilder();
+    command.add("VBoxManage");
+    command.add("unregistervm");
+    command.add(idVm);
+    command.add("--delete");
+    try {
+      processBuilder.command(command);
+      Process process = processBuilder.start();
+      printProcessOutput(process);
+    } catch (IOException | InterruptedException e) {
+      e.printStackTrace();
+    }
+  }
+
   private void printProcessOutput(Process process) throws IOException, InterruptedException {
     BufferedReader stdInput = new BufferedReader(new InputStreamReader(process.getInputStream()));
     BufferedReader stdError = new BufferedReader(new InputStreamReader(process.getErrorStream()));
@@ -192,5 +226,22 @@ public class VBoxManage {
       System.out.println("Error code: " + exitCode);
     else
       System.out.println("Process executed successfully");
+  }
+
+  public void getMetricsInstance() {
+    var command = new ArrayList<String>();
+    ProcessBuilder processBuilder = new ProcessBuilder();
+    command.add("VBoxManage");
+    command.add("metrics");
+    command.add("query");
+    command.add("3395d479-bb56-4c8d-9f23-025561b70231");
+    command.add("CPU/Load/User,RAM/Usage/Used,Disk/Usage/Used,Net/Rate/Tx,Net/Rate/Rx");
+    try {
+      processBuilder.command(command);
+      Process process = processBuilder.start();
+      printProcessOutput(process);
+    } catch (IOException | InterruptedException e) {
+      e.printStackTrace();
+    }
   }
 }
