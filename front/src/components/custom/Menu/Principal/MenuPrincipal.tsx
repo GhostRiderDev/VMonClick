@@ -3,7 +3,15 @@ import { Button } from "@/components/ui/button"
 import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet"
 import { MountainIcon } from "lucide-react";
 import { MenuIcon } from "lucide-react";
+import { jwtDecode } from "jwt-decode";
 function MenuPrincipal() {
+    const token = sessionStorage.getItem("token");
+    const decode = jwtDecode(token);
+    const handleClear = () => {
+        sessionStorage.clear();
+        location.reload();
+    }
+
     return (
         <>
             <header className="flex h-[70px] w-full shrink-0 items-center px-4 md:px-6 bg-slate-900 border-b border-slate-800 rounded-sm ">
@@ -12,7 +20,7 @@ function MenuPrincipal() {
                     <span className="sr-only">VMonClick</span>
                 </Link>
                 <nav className="ml-auto flex justify-center items-center gap-4 sm:gap-4">
-                    <span className="text-white text-lg hidden sm:block">Keni Beck</span>
+                    <span className="text-white text-lg hidden sm:block">{decode.sub}</span>
                     <img className="w-10 h-10 rounded-full border border-sky-400" src="https://gravatar.com/avatar/ef938b7fcb3aeaf9e148226bb76bcfcf?s=400&d=robohash&r=x" />
 
                     {/* <Link
@@ -34,7 +42,7 @@ function MenuPrincipal() {
                         className="text-sm font-medium hover:underline underline-offset-4 hidden sm:block"
 
                     />
-                    <Button variant="outline" size="sm" className="hidden sm:block hover:bg-sky-500 hover:border-none hover:w-[60px]">
+                    <Button variant="outline" size="sm" className="hidden sm:block hover:bg-sky-500 hover:border-none hover:w-[60px]" onClick={handleClear}>
                         Salir
                     </Button>
                     <Sheet>
@@ -55,7 +63,7 @@ function MenuPrincipal() {
                                 <Link to="#" className="flex w-full items-center py-2 text-lg font-semibold">
                                     Settings
                                 </Link>
-                                <Button variant="outline" className="w-full">
+                                <Button variant="outline" className="w-full" onClick={handleClear}>
                                     Logout
                                 </Button>
                             </div>

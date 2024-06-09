@@ -8,12 +8,18 @@ import {
 import { ResponsiveLine } from "@nivo/line";
 import { useState, useEffect } from "react";
 import { getHostMetrics } from "@/services/hostMetrics";
+
+
 function MetricsTesting() {
     const [, setData] = useState([]);
     const [dataToChart, setDataToChart] = useState([]);
+    const token = sessionStorage.getItem("token");
+
+
 
     useEffect(() => {
-        getHostMetrics().then((metrics) => {
+
+        getHostMetrics(token).then((metrics) => {
             setData(
                 metrics.sort((a, b) => {
                     const dateNum =
@@ -27,15 +33,15 @@ function MetricsTesting() {
         });
     }, []);
 
-  const cpuData = dataToChart.map((item, index) => ({ x: index, y: item.cpu }));
-  const ramData = dataToChart.map((item, index) => ({
-    x: index,
-    y: item.ram / 1024,
-  }));
-  const diskData = dataToChart.map((item, index) => ({
-    x: index,
-    y: item.disk,
-  }));
+    const cpuData = dataToChart.map((item, index) => ({ x: index, y: item.cpu }));
+    const ramData = dataToChart.map((item, index) => ({
+        x: index,
+        y: item.ram / 1024,
+    }));
+    const diskData = dataToChart.map((item, index) => ({
+        x: index,
+        y: item.disk,
+    }));
 
     return (
         <div className="flex flex-col bg-sky-300 dark:bg-gray-800 rounded-md">
