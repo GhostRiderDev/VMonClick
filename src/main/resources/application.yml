@@ -5,9 +5,9 @@ spring:
   cassandra:
     keyspace-name: "kp"
     contact-points:
-    - "node-0.aws-us-east-1.0df81d0a601b1b846e15.clusters.scylla.cloud"
-    - "node-1.aws-us-east-1.0df81d0a601b1b846e15.clusters.scylla.cloud"
-    - "node-2.aws-us-east-1.0df81d0a601b1b846e15.clusters.scylla.cloud"
+      - "node-0.aws-us-east-1.0df81d0a601b1b846e15.clusters.scylla.cloud"
+      - "node-1.aws-us-east-1.0df81d0a601b1b846e15.clusters.scylla.cloud"
+      - "node-2.aws-us-east-1.0df81d0a601b1b846e15.clusters.scylla.cloud"
     schema-action: CREATE_IF_NOT_EXISTS
     username: scylla
     password: th5ZAsE1RiNJf0U
