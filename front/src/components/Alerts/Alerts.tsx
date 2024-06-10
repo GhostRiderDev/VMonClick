@@ -14,3 +14,13 @@ export function AlertSuccess(title: string, text: string) {
         text: text,
     })
 }
+export function Loading() {
+    Swal.fire({
+        title: 'Cargando',
+        allowOutsideClick: false,
+        showConfirmButton: false,
+        willOpen: () => {
+            Swal.showLoading();
+        }
+    });
+}
