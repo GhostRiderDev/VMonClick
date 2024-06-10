@@ -5,13 +5,12 @@ import { MountainIcon } from "lucide-react";
 import { MenuIcon } from "lucide-react";
 import { jwtDecode } from "jwt-decode";
 function MenuPrincipal() {
-    const token = sessionStorage.getItem("token");
+    const token = localStorage.getItem("token");
     const decode = jwtDecode(token);
     const handleClear = () => {
-        sessionStorage.clear();
+        localStorage.clear();
         location.reload();
     }
-
     return (
         <>
             <header className="flex h-[70px] w-full shrink-0 items-center px-4 md:px-6 bg-slate-900 border-b border-slate-800 rounded-sm ">

@@ -13,7 +13,7 @@ import { getHostMetrics } from "@/services/hostMetrics";
 function MetricsTesting() {
     const [, setData] = useState([]);
     const [dataToChart, setDataToChart] = useState([]);
-    const token = sessionStorage.getItem("token");
+    const token = localStorage.getItem("token");
 
 
 
