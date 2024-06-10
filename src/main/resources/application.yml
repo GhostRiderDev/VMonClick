@@ -5,12 +5,12 @@ spring:
   cassandra:
     keyspace-name: "kp"
     contact-points:
-      - "node-0.aws-us-east-1.bfd31962b5dbed133c87.clusters.scylla.cloud"
-      - "node-1.aws-us-east-1.bfd31962b5dbed133c87.clusters.scylla.cloud"
-      - "node-2.aws-us-east-1.bfd31962b5dbed133c87.clusters.scylla.cloud"
+      - "node-0.aws-us-east-1.0df81d0a601b1b846e15.clusters.scylla.cloud"
+      - "node-1.aws-us-east-1.0df81d0a601b1b846e15.clusters.scylla.cloud"
+      - "node-2.aws-us-east-1.0df81d0a601b1b846e15.clusters.scylla.cloud"
     schema-action: CREATE_IF_NOT_EXISTS
     username: scylla
-    password: jUsp3yiC75qWFvg
+    password: th5ZAsE1RiNJf0U
     local-datacenter: AWS_US_EAST_1
     connection:
       connect-timeout: PT10S
