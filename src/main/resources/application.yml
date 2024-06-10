@@ -13,15 +13,16 @@ spring:
     password: th5ZAsE1RiNJf0U
     local-datacenter: AWS_US_EAST_1
     connection:
-      connect-timeout: 10000
+      connect-timeout: PT10S
+      init-query-timeout: PT10S
+    request:
+      timeout: PT10S
   jpa:
     hibernate:
       ddl-auto: update
 
 server:
   port: 8080
-
-
 
 springdoc:
   swagger-ui:

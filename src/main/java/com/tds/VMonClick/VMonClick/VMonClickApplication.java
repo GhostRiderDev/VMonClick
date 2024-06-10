@@ -27,13 +27,6 @@ public class VMonClickApplication {
         SpringApplication.run(VMonClickApplication.class, args);
     }
 
-    // @Bean
-    // public CommandLineRunner commandLineRunner() {
-    // return args -> {
-    // fetchHostResources();
-    // fetchMetricInstances();
-    // };
-    // }
 
     @Scheduled(fixedRate = 30000) // 30 seconds
     public void fetchHostResources() {
@@ -49,7 +42,7 @@ public class VMonClickApplication {
 
 
 
-    @Scheduled(fixedRate = 30000) // 30 seconds
+    @Scheduled(fixedRate = 15000) // 15 seconds
     public void fetchMetricInstances() {
         metricService.saveMetricsIntance();
     }
