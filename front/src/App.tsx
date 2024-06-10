@@ -1,17 +1,12 @@
-
-
 import { Routes, Route } from "react-router-dom";
 import LoginFrom from "./components/custom/login/LoginFrom";
 import Register from "./components/custom/register/Register";
 import Menu from "./components/custom/Menu/Principal/Menu";
 import ProtectedRoute from "./middleware/ProtectedRoute";
-
-
+import TerminalConn from "./components/custom/terminal/TerminalConn";
 
 function App() {
-  const token = sessionStorage.getItem('token');
-
-
+  const token = sessionStorage.getItem("token");
 
   return (
     <>
@@ -22,9 +17,9 @@ function App() {
         <Route element={<ProtectedRoute canActivate={token} />}>
           <Route path="/menu" element={<Menu />} />
         </Route>
-      </Routes >
+        <Route path="/terminal" element={<TerminalConn />} />
+      </Routes>
     </>
-
   );
 }
 
