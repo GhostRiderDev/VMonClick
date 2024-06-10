@@ -1,5 +1,6 @@
 package com.tds.VMonClick.VMonClick.controller;
 
+import java.io.ByteArrayOutputStream;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,14 +14,19 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
+import com.jcraft.jsch.ChannelExec;
+import com.jcraft.jsch.JSch;
+import com.jcraft.jsch.Session;
 import com.tds.VMonClick.VMonClick.dto.UserDto;
 import com.tds.VMonClick.VMonClick.service.UserService;
 import com.typesafe.config.ConfigException.Null;
 
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/users")
+@Slf4j
 public class UserController {
     @Autowired
     private UserService userService;
@@ -85,5 +91,8 @@ public class UserController {
                     "Unavailable server");
         }
     }
+
+
+    
 
 }
