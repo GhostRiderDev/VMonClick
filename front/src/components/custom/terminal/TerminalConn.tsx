@@ -14,6 +14,7 @@ function TerminalConn() {
   useEffect(() => {
     if (iframeRef.current) {
       iframeRef.current.src = conn;
+      iframeRef.current.focus(); // Añade esta línea
     }
   }, [conn]);
 
@@ -26,6 +27,7 @@ function TerminalConn() {
         width="50%"
         height="80%"
         className="rounded-md"
+        // sandbox="allow-forms allow-scripts"
       />
     </div>
   );

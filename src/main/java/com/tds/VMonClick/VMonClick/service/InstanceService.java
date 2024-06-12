@@ -1,6 +1,8 @@
 package com.tds.VMonClick.VMonClick.service;
 
 import java.util.UUID;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,9 +14,13 @@ import com.tds.VMonClick.VMonClick.repository.InstanceRepository;
 import com.tds.VMonClick.VMonClick.repository.ResourceRepository;
 import com.tds.VMonClick.VMonClick.repository.VmRepository;
 import java.io.IOException;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+
 
 @Service
 public class InstanceService {
@@ -122,6 +128,14 @@ public class InstanceService {
     vBoxManage.startVMInstance(vm, resource, instance);
     instance.setStop(false);
     instanceRepository.save(instance);
+
+    CompletableFuture.runAsync(() -> {
+      pingMulticast();
+      pingMulticast();
+      pingMulticast();
+      pingMulticast();
+      pingMulticast();
+    });
     return new ResponseEntity<>("Instance started", HttpStatus.OK);
   }
 
@@ -156,5 +170,19 @@ public class InstanceService {
     }
 
     return vBoxManage.getIpInstance(id);
+  }
+
+  public void pingMulticast() {
+    try {
+      for (int i = 2; i <= 100; i++) {
+        String ip = "192.168.1." + i;
+        System.out.println("Pinging " + ip);
+        ProcessBuilder processBuilder = new ProcessBuilder("cmd.exe", "/c", "ping -n 1 " + ip);
+        processBuilder.start();
+        Thread.sleep(1000); // Sleep for 1 second
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 }

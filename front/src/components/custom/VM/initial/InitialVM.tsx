@@ -47,18 +47,33 @@ const InitialVM = () => {
       AlertSuccess("Success", "Starting VM");
       navigate("/terminal");
       startInstance(id).then(() => {
-        setTimeout(async () => {
-          const ip = await getIp(id);
-          const link = await getLink(ip);
-          setConn(link);
-        }, 120000);
+        setTimeout(() => {
+          const getIpAndSetConn = async () => {
+            const ip = await getIp(id);
+            console.log("++++++++++++IP++++++++:", ip);
+            if (ip === "" || !ip) {
+              // Espera 1 segundo antes de volver a intentarlo
+              setTimeout(getIpAndSetConn, 1000);
+            } else {
+              const { urlConn } = await getLink(ip);
+              console.log("++++++++++++URL++++++++:", urlConn);
+              setConn(urlConn);
+            }
+          };
+          getIpAndSetConn();
+        }, 60000);
       });
-
       return;
     }
 
-    const res = await stopInstance(id);
-    AlertInfo("Info", res);
+    if (!isStop) {
+      AlertInfo("Info", "Stopping VM");
+      stopInstance(id).then(() => {
+        setTimeout(() => {
+          setConn("/machineManagement");
+        }, 1000);
+      });
+    }
   };
 
   const changeStatus = (id: string) => {

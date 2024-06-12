@@ -82,15 +82,5 @@ public class HostInfoCron {
   }
 
 
-  public static void pingMulticast() {
-    try {
-      ProcessBuilder processBuilder = new ProcessBuilder();
-      for (int i = 0; i < 255; i++) {
-        processBuilder.command("cmd.exe", "/c", "ping 192.168.1." + i);
-        processBuilder.start();
-      }
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-  }
+  
 }

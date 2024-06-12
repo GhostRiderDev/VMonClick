@@ -10,6 +10,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -188,6 +190,8 @@ public class VBoxManage {
     command.add("VBoxManage");
     command.add("startvm");
     command.add(instanceEntity.getId());
+    command.add("--type");
+    command.add("headless");
 
     if (!command.isEmpty()) {
       processBuilder.command(command);
@@ -328,43 +332,47 @@ public class VBoxManage {
       String command = "VBoxManage.exe showvminfo \"" + idInstance
           + "\" | grep \"NIC\" | awk -F 'MAC: ' '{print $2}' | sed 's/,.*//' | tr '[:upper:]' '[:lower:]' | sed 's/\\(..\\)/\\1-/g' | sed 's/-$//'";
 
+
       List<String> commandList = new ArrayList<>();
       commandList.add(bashDir); // Update this path to your Git Bash path
       commandList.add("-c");
       commandList.add(command);
 
 
-      ProcessBuilder processBuilder = new ProcessBuilder(commandList);
 
+      ProcessBuilder processBuilder = new ProcessBuilder(commandList);
       Process process = processBuilder.start();
 
       BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
       String mac = null;
       String line;
       while ((line = reader.readLine()) != null) {
-        if (line.contains("-")) {
+        if (!line.trim().isEmpty() && line.contains("-")) {
           mac = line.trim();
         }
       }
+      System.out.println("*****************************" + mac);
+
+      printProcessOutput(process);
 
       commandList.clear();
-      command = "arp -a | findstr  \"" + mac + "\" | awk '{print $1}'";
+      command = "arp -a | findstr \"" + mac + "\"";
 
-      commandList.add(bashDir); // Update this path to your Git Bash path
-      commandList.add("-c");
+      commandList.add("cmd.exe");
+      commandList.add("/c");
       commandList.add(command);
-
-
 
       processBuilder = new ProcessBuilder(commandList);
       process = processBuilder.start();
-
       reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
 
       String ip = null;
-      while ((line = reader.readLine()) != null) {
-        if (line.contains(".")) {
-          ip = line.trim();
+      Pattern pattern = Pattern.compile("(\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3})");
+      String lineIp;
+      while ((lineIp = reader.readLine()) != null) {
+        Matcher matcher = pattern.matcher(lineIp);
+        if (matcher.find()) {
+          ip = matcher.group(1);
         }
       }
 
