@@ -1,1 +1,0 @@
-{"id":"OCM58exZfvBET4j9","body":"  SELECT address, port, client_type, connection_stage, driver_name,\n  driver_version, hostname, protocol_version, shard_id, ssl_cipher_suite,\n  ssl_enabled, ssl_protocol, username\n  FROM system.clients\n  LIMIT 500;","filename":"script_3.cql","clusterName":"Cluster cassandra","keyspace":"system","source":"action","modified":true}
