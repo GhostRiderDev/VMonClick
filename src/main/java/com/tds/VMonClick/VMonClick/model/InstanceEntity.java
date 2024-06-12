@@ -53,4 +53,8 @@ public class InstanceEntity {
 
   @Transient
   List<MetricEntity> metrics;
+
+  @CassandraType(type = CassandraType.Name.TEXT)
+  @Column(value = "port")
+  private String port;
 }

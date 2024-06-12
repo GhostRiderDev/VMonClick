@@ -1,1 +1,1 @@
-{"id":"DGb8ckxQlTB7gN2H","body":"  SELECT id, email, isactivated, name, password, role\n  FROM kp.\"User\"\n  WHERE id=00000000-0000-0000-0000-000000000000\n  LIMIT 500;","filename":"script_3.cql","clusterName":"Cluster cassandra","keyspace":"kp","source":"action","modified":true}
+{"id":"TYyodLlpZ7eAS6Jm","body":"  SELECT id, date_finished, id_created, id_rsc, id_user, id_vm, is_finish,\n  is_stop, port\n  FROM kp.instance\n  LIMIT 500;","filename":"script_1.cql","clusterName":"Cluster cassandra","keyspace":"kp","source":"action","modified":true}

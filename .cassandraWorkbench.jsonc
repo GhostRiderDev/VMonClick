@@ -8,14 +8,14 @@
   {
     "name": "Cluster cassandra",
     "contactPoints": [
-      "node-0.aws-sa-east-1.575f197665f85a77a519.clusters.scylla.cloud",
-      "node-1.aws-sa-east-1.575f197665f85a77a519.clusters.scylla.cloud",
-      "node-2.aws-sa-east-1.575f197665f85a77a519.clusters.scylla.cloud"
+      "node-0.aws-us-east-1.6efb60f0387a1c7eeaa8.clusters.scylla.cloud",
+      "node-1.aws-us-east-1.6efb60f0387a1c7eeaa8.clusters.scylla.cloud",
+      "node-2.aws-us-east-1.6efb60f0387a1c7eeaa8.clusters.scylla.cloud"
     ],
     "authProvider": {
       "class": "PasswordAuthenticator",
       "username": "scylla",
-      "password": "vFgcj9k4StLZ1OU"
+      "password": "8Zbs9ygUS3tmziu"
     }
   }
 ]
