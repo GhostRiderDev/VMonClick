@@ -16,6 +16,9 @@ package-lock.json
 ### .cassandraWorkbench ###
 .cassandraWorkbench/
 
+### application.yml ###
+application.yml
+
 
 ### STS ###
 .apt_generated
