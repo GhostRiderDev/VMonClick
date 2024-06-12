@@ -7,8 +7,11 @@ import TerminalConn from "./components/custom/terminal/TerminalConn";
 import PrincipalVM from "./components/custom/VM/PrincipalVM";
 import MachineManagement from "./components/custom/VM/MachineManagement/MachineManagement";
 
+
+
 function App() {
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem('token');
+
 
   return (
     <>

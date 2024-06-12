@@ -40,7 +40,6 @@ public class InstanceService {
     instance.setId(UUID.randomUUID().toString());
     instance.setDate_finished(null);
     instance.setStop(true);
-    instance.setPort(null);
 
     var vmEntity = vmRepository.findById(instance.getIdVM()).get();
 
@@ -141,20 +140,5 @@ public class InstanceService {
     instance.setDate_finished(LocalDateTime.now());
     instanceRepository.save(instance);
     return new ResponseEntity<>("Instance deleted", HttpStatus.NO_CONTENT);
-  }
-
-  public String getIpInstance(String id) {
-    InstanceEntity instance = instanceRepository.findById(id).get();
-    if (instance == null) {
-      return "Instance not found";
-    }
-    if (instance.isStop()) {
-      return "Instance is stopped";
-    }
-    if (instance.isFinish()) {
-      return "Instance is finished";
-    }
-
-    return vBoxManage.getIpInstance(id);
   }
 }

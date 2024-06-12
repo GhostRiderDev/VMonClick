@@ -17,9 +17,24 @@ public class ResourceService {
   private HostRscService hostRscService;
 
   public ResourceEntity saveResource(ResourceEntity resource) {
+    var lastRegister = hostRscService.getLastRegister();
+    if (resource.getDisk() > lastRegister.getDisk() || resource.getCpu() > lastRegister.getCpu()
+        || resource.getRam() > lastRegister.getRam()) {
+      return null;
+    }
+
+    if (resourceRepository
+        .isDuplicateResource(resource.getCpu(), resource.getRam(), resource.getDisk()).size() > 0) {
+      return null;
+    }
+
+    resource.setId(ResourceEntity.incrementalId++);
     resource.setCreated_at(LocalDateTime.now());
-    resource.setId(ResourceEntity.incrementalId);
-    ResourceEntity.incrementalId++;
+
+    System.out.println("****************************");
+    System.out.println("Resource created: " + resource.toString());
+    System.out.println("****************************");
+
     return resourceRepository.save(resource);
   }
 

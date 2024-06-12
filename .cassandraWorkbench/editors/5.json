@@ -1,1 +1,0 @@
-{"id":"J71acRBlH8mI3ipg","body":"DROP KEYSPACE kp;","filename":"script_1.cql","clusterName":"Cluster cassandra","keyspace":"kp","source":"action","modified":true}
