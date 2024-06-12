@@ -1,1 +1,1 @@
-{"id":"ceuwBFRVhOZoX07A","clusterName":"Cluster AllowAllAuthenticator","keyspace":null,"body":"","modified":false,"filename":"script_2.cql","source":"action"}
+{"id":"Nbqi4Ewsc3VWuJnf","body":"  SELECT id, date_finished, id_created, id_rsc, id_user, id_vm, is_finish,\n  is_stop, port\n  FROM kp.instance\n  LIMIT 500;","filename":"script_1.cql","clusterName":"Cluster cassandra","keyspace":"kp","source":"action","modified":true}

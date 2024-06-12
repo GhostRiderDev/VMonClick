@@ -1,0 +1,1 @@
+{"id":"9PBNArkwf8LhnQ27","body":"  SELECT peer, dc, host_id, load, owns, status, tokens, up\n  FROM system.cluster_status\n  LIMIT 500;","filename":"script_1.cql","clusterName":"Cluster cassandra","keyspace":"system","source":"action","modified":true}

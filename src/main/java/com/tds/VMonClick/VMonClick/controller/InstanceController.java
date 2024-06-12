@@ -3,6 +3,7 @@ package com.tds.VMonClick.VMonClick.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,6 +34,11 @@ public class InstanceController {
     return instanceService.getInstanceById(id);
   }
 
+  @GetMapping("/{id}/ip")
+  public String getIpInstance(@PathVariable String id) throws InterruptedException {
+    return instanceService.getIpInstance(id);
+  }
+
   @GetMapping("/user/{id}")
   public List<InstanceEntity> getInstancesByUser(@PathVariable("id") String idUser) {
     return instanceService.getInstancesByUser(idUser);
@@ -44,7 +50,8 @@ public class InstanceController {
     return instanceService.stopInstance(id);
   }
 
-  @DeleteMapping("/{id}/delete")
+  @CrossOrigin(origins = "http://localhost:5173")
+  @GetMapping("/{id}/delete")
   public ResponseEntity<String> deleteInstance(@PathVariable("id") String id)
       throws IOException, InterruptedException {
     return instanceService.deleteInstance(id);
@@ -61,8 +68,6 @@ public class InstanceController {
       @RequestBody InstanceEntity instanceToUpdate) {
     instanceService.updateInstance(id, instanceToUpdate);
   }
-
-
 
   @PostMapping("/{id}/start")
   public ResponseEntity<String> startInstance(@PathVariable String id)

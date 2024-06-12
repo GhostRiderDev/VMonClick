@@ -49,25 +49,26 @@ public class MetricService {
   }
 
   public void saveMetricsIntance() {
-    try {
-      List<InstanceEntity> instances = instanceRepository.findIntancesActive();
-      instances.stream().forEach(instance -> {
-        System.out.println("Id:" + instance.getId());
-      });
-      instances.stream().forEach(instance -> {
+    List<InstanceEntity> instances = instanceRepository.findIntancesActive();
+    instances.stream().filter(in -> !in.isStop()).forEach(instance -> {
+      System.out.println("Id:" + instance.getId());
+      try {
         Map<String, Integer> data = vboxManage.getMetricsInstance(instance.getId());
         int cpu = data.get("CPU");
         int ram = data.get("RAM");
         int disk = data.get("DISK");
         int netTx = data.get("NET_TX");
         int netRx = data.get("NET_RX");
+        log.info("^*******************PASA POR AQUI*******************^");
         MetricEntity metricEntity =
             MetricEntity.builder().idInstance(instance.getId()).cpu(cpu).ram(ram).disk(disk)
                 .bandWidth(netTx).id(UUID.randomUUID()).dateRegistered(LocalDateTime.now()).build();
         metricRepository.save(metricEntity);
-      });
-    } catch (Exception e) {
-      log.info("Error al guardar metricas de instancias");
-    }
+      } catch (Exception e) {
+        // instance.setStop(true);
+        // instanceRepository.save(instance);
+      }
+    });
+
   }
 }
