@@ -6,15 +6,28 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.tds.VMonClick.VMonClick.model.InstanceEntity;
 import com.tds.VMonClick.VMonClick.model.ResourceEntity;
 import com.tds.VMonClick.VMonClick.model.VmEntity;
+import com.tds.VMonClick.VMonClick.repository.InstanceRepository;
+import io.jsonwebtoken.lang.Collections;
 
 @Service
 public class VBoxManage {
+
+  @Autowired
+  private InstanceRepository instanceRepository;
+
   public void createVM(VmEntity vmEntity, ResourceEntity resourceEntity,
       InstanceEntity instanceEntity) throws IOException, InterruptedException {
     var command = new ArrayList<String>();
@@ -56,7 +69,16 @@ public class VBoxManage {
     command.add("on");
     command.add("--mouse");
     command.add("usbtablet");
+    command.add("--nic1");
+    command.add("bridged");
+    command.add("--bridgeadapter1");
+    command.add("\"Realtek RTL8821CE 802.11ac PCIe Adapter\"");
+    // command.add("--natpf1");
+    // int randomPort = (int) (Math.random() * 16383 + 49152);
+    // command.add("\"ssh,tcp,," + randomPort + ",,22\"");
 
+    // instanceEntity.setPort(randomPort + "");
+    instanceRepository.save(instanceEntity);
 
     processBuilder.command(command);
     process = processBuilder.start();
@@ -168,6 +190,8 @@ public class VBoxManage {
     command.add("VBoxManage");
     command.add("startvm");
     command.add(instanceEntity.getId());
+    command.add("--type");
+    command.add("headless");
 
     if (!command.isEmpty()) {
       processBuilder.command(command);
@@ -230,7 +254,7 @@ public class VBoxManage {
       System.out.println("Process executed successfully");
   }
 
-  public Map<String, Integer> getMetricsInstance(String idInstance) {
+  public Map<String, Integer> getMetricsInstance(String idInstance) throws InterruptedException {
     var command = new ArrayList<String>();
     ProcessBuilder processBuilder = new ProcessBuilder();
     command.add("VBoxManage");
@@ -300,6 +324,63 @@ public class VBoxManage {
       e.printStackTrace();
     }
     return metrics;
+  }
 
+  public String getIpInstance(String idInstance) {
+    var bashDir = "D:\\OLVADIS\\GIT\\bin\\bash.exe"; // Update this path to your Git Bash path
+    try {
+      String command = "VBoxManage.exe showvminfo \"" + idInstance
+          + "\" | grep \"NIC\" | awk -F 'MAC: ' '{print $2}' | sed 's/,.*//' | tr '[:upper:]' '[:lower:]' | sed 's/\\(..\\)/\\1-/g' | sed 's/-$//'";
+
+
+      List<String> commandList = new ArrayList<>();
+      commandList.add(bashDir); // Update this path to your Git Bash path
+      commandList.add("-c");
+      commandList.add(command);
+
+
+
+      ProcessBuilder processBuilder = new ProcessBuilder(commandList);
+      Process process = processBuilder.start();
+
+      BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+      String mac = null;
+      String line;
+      while ((line = reader.readLine()) != null) {
+        if (!line.trim().isEmpty() && line.contains("-")) {
+          mac = line.trim();
+        }
+      }
+      System.out.println("*****************************" + mac);
+
+      printProcessOutput(process);
+
+      commandList.clear();
+      command = "arp -a | findstr \"" + mac + "\"";
+
+      commandList.add("cmd.exe");
+      commandList.add("/c");
+      commandList.add(command);
+
+      processBuilder = new ProcessBuilder(commandList);
+      process = processBuilder.start();
+      reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+
+      String ip = null;
+      Pattern pattern = Pattern.compile("(\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3})");
+      String lineIp;
+      while ((lineIp = reader.readLine()) != null) {
+        Matcher matcher = pattern.matcher(lineIp);
+        if (matcher.find()) {
+          ip = matcher.group(1);
+        }
+      }
+
+      return ip;
+
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return null;
   }
 }

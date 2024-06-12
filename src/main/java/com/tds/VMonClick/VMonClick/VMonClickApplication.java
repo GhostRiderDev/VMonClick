@@ -1,10 +1,8 @@
 package com.tds.VMonClick.VMonClick;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import com.tds.VMonClick.VMonClick.service.HostRscService;
@@ -46,5 +44,8 @@ public class VMonClickApplication {
     public void fetchMetricInstances() {
         metricService.saveMetricsIntance();
     }
+
+    
+
 
 }

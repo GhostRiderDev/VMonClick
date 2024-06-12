@@ -1,1 +1,9 @@
-{"id":"DGb8ckxQlTB7gN2H","body":"  SELECT id, email, isactivated, name, password, role\n  FROM kp.\"User\"\n  WHERE id=00000000-0000-0000-0000-000000000000\n  LIMIT 500;","filename":"script_3.cql","clusterName":"Cluster cassandra","keyspace":"kp","source":"action","modified":true}
+{
+  "id": "Njq4IFWxem0wLBGK",
+  "body": "DROP KEYSPACE kp;",
+  "filename": "script_7.cql",
+  "clusterName": "Cluster cassandra",
+  "keyspace": "kp",
+  "source": "action",
+  "modified": true
+}

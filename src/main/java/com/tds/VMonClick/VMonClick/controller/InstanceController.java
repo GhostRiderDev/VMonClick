@@ -38,7 +38,7 @@ public class InstanceController {
     return instanceService.getInstancesByUser(idUser);
   }
 
-  @PutMapping("/{id}/stop")
+  @PostMapping("/{id}/stop")
   public ResponseEntity<String> stopInstance(@PathVariable("id") String id)
       throws IOException, InterruptedException {
     return instanceService.stopInstance(id);
@@ -65,7 +65,7 @@ public class InstanceController {
 
 
   @PostMapping("/{id}/start")
-  public ResponseEntity<String> startInstance(@PathVariable String id)
+  public ResponseEntity<String> startInstance(@PathVariable("id") String id)
       throws IOException, InterruptedException {
     return instanceService.startInstance(id);
   }
