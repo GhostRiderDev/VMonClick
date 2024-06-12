@@ -13,6 +13,10 @@ npm-debug.log
 package-lock.json
 
 
+### .cassandraWorkbench ###
+.cassandraWorkbench/
+
+
 ### STS ###
 .apt_generated
 .classpath
