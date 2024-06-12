@@ -1,1 +1,1 @@
-{"id":"J71acRBlH8mI3ipg","body":"DROP KEYSPACE kp;","filename":"script_1.cql","clusterName":"Cluster cassandra","keyspace":"kp","source":"action","modified":true}
+{"id":"I3JvFyR08xONDuXT","body":"  SELECT id, date_finished, id_created, id_rsc, id_user, id_vm, is_finish,\n  is_stop, port\n  FROM kp.instance\n  LIMIT 500;","filename":"script_5.cql","clusterName":"Cluster cassandra","keyspace":"kp","source":"action","modified":true}

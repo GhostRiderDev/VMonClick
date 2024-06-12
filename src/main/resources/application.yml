@@ -1,15 +1,16 @@
 spring:
   application:
     name: VMonClick
+
   cassandra:
     keyspace-name: "kp"
     contact-points:
-      - "node-0.aws-us-east-1.ae50cd89b6a741524417.clusters.scylla.cloud"
-      - "node-1.aws-us-east-1.ae50cd89b6a741524417.clusters.scylla.cloud"
-      - "node-2.aws-us-east-1.ae50cd89b6a741524417.clusters.scylla.cloud"
+      - "node-0.aws-us-east-1.6efb60f0387a1c7eeaa8.clusters.scylla.cloud"
+      - "node-1.aws-us-east-1.6efb60f0387a1c7eeaa8.clusters.scylla.cloud"
+      - "node-2.aws-us-east-1.6efb60f0387a1c7eeaa8.clusters.scylla.cloud"
     schema-action: CREATE_IF_NOT_EXISTS
     username: scylla
-    password: qpClT3NEi7k8vKF
+    password: 8Zbs9ygUS3tmziu
     local-datacenter: AWS_US_EAST_1
     connection:
       connect-timeout: PT10S

@@ -1,1 +1,1 @@
-{"id":"o1vh32TR6bxm0Q5D","body":"CREATE KEYSPACE kp WITH replication = {'class': 'NetworkTopologyStrategy', 'replication_factor' : 3} AND durable_writes = true;\n \n\n\n","filename":"script_4.cql","clusterName":"Cluster cassandra","keyspace":"system_auth","source":"action","modified":true}
+{"id":"Nbqi4Ewsc3VWuJnf","body":"  SELECT id, date_finished, id_created, id_rsc, id_user, id_vm, is_finish,\n  is_stop, port\n  FROM kp.instance\n  LIMIT 500;","filename":"script_1.cql","clusterName":"Cluster cassandra","keyspace":"kp","source":"action","modified":true}

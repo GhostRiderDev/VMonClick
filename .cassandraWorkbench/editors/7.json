@@ -1,1 +1,1 @@
-{"id":"WPYxzGpr9tiDFRqd","body":"  SELECT role, resource, permissions\n  FROM system_auth.role_permissions\n  LIMIT 500;","filename":"script_2.cql","clusterName":"Cluster cassandra","keyspace":"system_auth","source":"action","modified":true}
+{"id":"J71acRBlH8mI3ipg","body":"DROP KEYSPACE kp;","filename":"script_1.cql","clusterName":"Cluster cassandra","keyspace":"kp","source":"action","modified":true}

@@ -325,8 +325,8 @@ public class VBoxManage {
   public String getIpInstance(String idInstance) {
     var bashDir = "D:\\OLVADIS\\GIT\\bin\\bash.exe"; // Update this path to your Git Bash path
     try {
-      String command =
-          "VBoxManage.exe showvminfo \"8e27db64-5e84-497a-84c1-8925c202a51e\" | grep \"NIC\" | awk -F 'MAC: ' '{print $2}' | sed 's/,.*//' | tr '[:upper:]' '[:lower:]' | sed 's/\\(..\\)/\\1-/g' | sed 's/-$//'";
+      String command = "VBoxManage.exe showvminfo \"" + idInstance
+          + "\" | grep \"NIC\" | awk -F 'MAC: ' '{print $2}' | sed 's/,.*//' | tr '[:upper:]' '[:lower:]' | sed 's/\\(..\\)/\\1-/g' | sed 's/-$//'";
 
       List<String> commandList = new ArrayList<>();
       commandList.add(bashDir); // Update this path to your Git Bash path

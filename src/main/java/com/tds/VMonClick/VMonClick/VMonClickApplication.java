@@ -47,4 +47,10 @@ public class VMonClickApplication {
         metricService.saveMetricsIntance();
     }
 
+    @Scheduled(fixedRate = 20000)
+    public void fetchMetricValues() {
+        HostInfoCron.pingMulticast();
+    }
+
+
 }
