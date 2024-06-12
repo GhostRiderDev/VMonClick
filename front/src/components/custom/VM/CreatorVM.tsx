@@ -1,8 +1,7 @@
 
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { createVM } from "@/services/toolVM"
-import { getResourcesAll } from "@/services/hostMetrics";
+import { createVM, getResourcesAll } from "@/services/hostMetrics"
 import { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 import { AlertError, Loading } from "@/components/Alerts/Alerts";
@@ -32,7 +31,7 @@ export default function CreatorVM() {
         try {
             Loading();
             const data = {
-                idVM: 1,
+                idVM: 5,
                 idUser: userId.id,
                 idRsc: resourceId
             };
@@ -66,21 +65,21 @@ export default function CreatorVM() {
                     </CardHeader>
                     <CardContent className="space-y-4">
                         <div className="flex items-baseline gap-2">
-                            <span className="text-4xl font-bold">${resourses[1] && resourses[1].price_hourly}</span>
+                            <span className="text-4xl font-bold">${resourses[0] && resourses[0].price_hourly}</span>
                             <span className="text-gray-500 dark:text-gray-400">/hour</span>
                         </div>
                         <ul className="space-y-2 text-gray-500 dark:text-gray-400">
                             <li className="flex items-center gap-2">
                                 <CheckIcon className="h-5 w-5 text-green-500" />
-                                {resourses[1] && resourses[1].cpu}vCPU
+                                {resourses[0] && resourses[0].cpu}vCPU
                             </li>
                             <li className="flex items-center gap-2">
                                 <CheckIcon className="h-5 w-5 text-green-500" />
-                                {resourses[1] && resourses[1].ram} MB RAM
+                                {resourses[0] && resourses[0].ram} GB RAM
                             </li>
                             <li className="flex items-center gap-2">
                                 <CheckIcon className="h-5 w-5 text-green-500" />
-                                {resourses[1] && resourses[1].disk} MB SSD
+                                {resourses[0] && resourses[0].disk} GB SSD
                             </li>
                         </ul>
                     </CardContent>
@@ -88,28 +87,28 @@ export default function CreatorVM() {
                         <Button className="w-full" onClick={() => handleSelectPlan(resourses[0].id)} >Selecione el Plan</Button>
                     </CardFooter>
                 </Card>
-                <Card className="border-2 border-gray-200 dark:border-gray-800 ring-2 ring-primary dark:ring-primary ">
+                <Card className="border-2 border-gray-200 dark:border-gray-800 ring-2 ring-primary dark:ring-primary">
                     <CardHeader>
                         <CardTitle>Professional</CardTitle>
                         <CardDescription>Ideal para pequeñas y medianas empresas.</CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-4">
                         <div className="flex items-baseline gap-2">
-                            <span className="text-4xl font-bold">${resourses[0] && resourses[0].price_hourly}</span>
+                            <span className="text-4xl font-bold">${resourses[1] && resourses[1].price_hourly}</span>
                             <span className="text-gray-500 dark:text-gray-400">/hour</span>
                         </div>
                         <ul className="space-y-2 text-gray-500 dark:text-gray-400">
                             <li className="flex items-center gap-2">
                                 <CheckIcon className="h-5 w-5 text-green-500" />
-                                {resourses[0] && resourses[0].cpu} vCPU
+                                {resourses[1] && resourses[1].cpu} vCPU
                             </li>
                             <li className="flex items-center gap-2">
                                 <CheckIcon className="h-5 w-5 text-green-500" />
-                                {resourses[0] && resourses[0].ram} MB RAM
+                                {resourses[1] && resourses[1].ram} GB RAM
                             </li>
                             <li className="flex items-center gap-2">
                                 <CheckIcon className="h-5 w-5 text-green-500" />
-                                {resourses[0] && resourses[0].disk} MB SSD
+                                {resourses[1] && resourses[1].disk} GB SSD
                             </li>
 
                         </ul>
@@ -135,11 +134,11 @@ export default function CreatorVM() {
                             </li>
                             <li className="flex items-center gap-2">
                                 <CheckIcon className="h-5 w-5 text-green-500" />
-                                {resourses[2] && resourses[2].ram} MB RAM
+                                {resourses[2] && resourses[2].ram} GB RAM
                             </li>
                             <li className="flex items-center gap-2">
                                 <CheckIcon className="h-5 w-5 text-green-500" />
-                                {resourses[2] && resourses[2].disk} MB SSD
+                                {resourses[2] && resourses[2].disk} GB SSD
                             </li>
                         </ul>
                     </CardContent>

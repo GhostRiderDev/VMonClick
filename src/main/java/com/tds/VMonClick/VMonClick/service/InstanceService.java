@@ -46,7 +46,6 @@ public class InstanceService {
     instance.setId(UUID.randomUUID().toString());
     instance.setDate_finished(null);
     instance.setStop(true);
-    instance.setPort(null);
 
     var vmEntity = vmRepository.findById(instance.getIdVM()).get();
 

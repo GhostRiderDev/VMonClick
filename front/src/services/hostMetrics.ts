@@ -23,3 +23,15 @@ export const getResourcesAll = async (token: string) => {
     });
   return response.data;
 }
+export const createVM = async (token: string, data: any) => {
+  const response = await axios.post(
+    "http://localhost:8080/instances",
+    data,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  return response.data;
+
+}

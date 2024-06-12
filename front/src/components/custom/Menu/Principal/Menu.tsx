@@ -1,45 +1,12 @@
 import MenuPrincipal from "./navBar/MenuPrincipal";
 import MetricsTesting from "../../metrics/MetricsTesting";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Footer from "@/Footer";
 import SidebarButtons from "../SidebarButtons";
-import { getHostMetrics } from "@/services/hostMetrics";
 
 
 function Menu() {
     const [currentPage, setCurrentPage] = useState("Inicio");
-    const [, setData] = useState([]);
-    const [dataToChart, setDataToChart] = useState([]);
-    const token = localStorage.getItem("token");
-
-
-
-    useEffect(() => {
-
-        getHostMetrics(token).then((metrics) => {
-            setData(
-                metrics.sort((a, b) => {
-                    const dateNum =
-                        new Date(a.dateRegistered).getTime() -
-                        new Date(b.dateRegistered).getTime();
-                    return dateNum;
-                })
-            );
-            const tranformData = metrics.slice(metrics.length - 10, metrics.length);
-            setDataToChart(tranformData);
-        });
-    }, []);
-
-    const cpuData = dataToChart.map((item, index) => ({ x: index, y: item.cpu }));
-    const ramData = dataToChart.map((item, index) => ({
-        x: index,
-        y: item.ram / 1024,
-    }));
-    const diskData = dataToChart.map((item, index) => ({
-        x: index,
-        y: item.disk,
-    }));
-
 
     return (
         <div className=" bg-slate-900  w-full">
@@ -62,19 +29,7 @@ function Menu() {
                         </div>
 
                         <section>
-                            <div className="flex flex-col bg-slate-200 dark:bg-gray-800 rounded-b-md">
-                                <div className="bg-sky-400 dark:bg-gray-900 shadow lg:h-[160px] py-4 rounded-t-md">
-                                    <div className="max-w-6xl mx-auto py-4 px-8 sm:px-6 lg:px-8 pt-8 pb-8 ">
-                                        <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
-                                            Cosumo actual de tu maquina
-                                        </h1>
-                                        <p className="text-gray-600 dark:text-gray-800">
-                                            Monitoriando tu CPU, RAM y disco usados en tu maquina.
-                                        </p>
-                                    </div>
-                                </div>
-                                <MetricsTesting cpuData={cpuData} ramData={ramData} diskData={diskData} />
-                            </div>
+                            <MetricsTesting />
                         </section>
                     </div>
                 </div>

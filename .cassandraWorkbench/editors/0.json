@@ -1,1 +1,9 @@
-{"id":"6v8gIA9qMLhOCsad","body":"CREATE KEYSPACE kp WITH replication = {'class': 'NetworkTopologyStrategy', 'replication_factor' : 3} AND durable_writes = true;\n","filename":"script_8.cql","clusterName":"Cluster cassandra","keyspace":"system","source":"action","modified":true}
+{
+  "id": "6v8gIA9qMLhOCsad",
+  "body": "CREATE KEYSPACE kp WITH replication = {'class': 'NetworkTopologyStrategy', 'replication_factor' : 3} AND durable_writes = true;\n",
+  "filename": "script_8.cql",
+  "clusterName": "Cluster cassandra",
+  "keyspace": "system",
+  "source": "action",
+  "modified": true
+}
