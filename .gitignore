@@ -4,6 +4,15 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+
+
+### Node.js ###
+
+node_modules/
+npm-debug.log
+package-lock.json
+
+
 ### STS ###
 .apt_generated
 .classpath
