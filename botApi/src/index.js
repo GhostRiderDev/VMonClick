@@ -1,9 +1,11 @@
 const express = require("express");
 const { getConnectionURL } = require("./connection");
+const cors = require("cors");
 const app = express();
 const port = 3000;
 
 app.use(express.json());
+app.use(cors())
 
 app.post("/connection", async (req, res) => {
   try {

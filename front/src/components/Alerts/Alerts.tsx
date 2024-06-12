@@ -14,6 +14,14 @@ export function AlertSuccess(title: string, text: string) {
         text: text,
     })
 }
+
+export function AlertInfo(title: string, text: string) {
+    Swal.fire({
+        icon: 'info',
+        title: title,
+        text: text,
+    })
+}
 export function Loading() {
     Swal.fire({
         title: 'Cargando',
