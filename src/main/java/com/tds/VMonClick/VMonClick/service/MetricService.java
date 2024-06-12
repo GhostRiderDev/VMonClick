@@ -66,7 +66,7 @@ public class MetricService {
         metricRepository.save(metricEntity);
       } catch (Exception e) {
         // instance.setStop(true);
-        instanceRepository.save(instance);
+        // instanceRepository.save(instance);
       }
     });
 
