@@ -19,7 +19,7 @@ function TerminalConn() {
   }, [conn]);
 
   return (
-    <div className="bg-red-500 flex justify-center items-center h-screen">
+    <div className="bg-[url(/rhel9.png)] bg-cover bg-center flex justify-center items-center h-screen">
       <iframe
         ref={iframeRef}
         src={conn}
