@@ -31,3 +31,6 @@ springdoc:
 jwt:
   token:
     secret: "46c8dcd2061bfe336e70802683e77d5c32de8e00b6e4251cb07eebe5965a87b7"
+
+vboxmanage:
+  bashDir: "D:\\OLVADIS\\GIT\\bin\\bash.exe"

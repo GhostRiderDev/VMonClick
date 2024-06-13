@@ -15,6 +15,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import com.tds.VMonClick.VMonClick.model.InstanceEntity;
 import com.tds.VMonClick.VMonClick.model.ResourceEntity;
@@ -24,7 +25,8 @@ import io.jsonwebtoken.lang.Collections;
 
 @Service
 public class VBoxManage {
-
+  @Value("${vboxmanage.bashDir}")
+  String bashDir;
   @Autowired
   private InstanceRepository instanceRepository;
 
@@ -327,7 +329,6 @@ public class VBoxManage {
   }
 
   public String getIpInstance(String idInstance) {
-    var bashDir = "D:\\OLVADIS\\GIT\\bin\\bash.exe"; // Update this path to your Git Bash path
     try {
       String command = "VBoxManage.exe showvminfo \"" + idInstance
           + "\" | grep \"NIC\" | awk -F 'MAC: ' '{print $2}' | sed 's/,.*//' | tr '[:upper:]' '[:lower:]' | sed 's/\\(..\\)/\\1-/g' | sed 's/-$//'";
