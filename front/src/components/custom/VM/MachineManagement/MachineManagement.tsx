@@ -3,8 +3,7 @@ import MenuPrincipal from "../../Menu/Principal/navBar/MenuPrincipal";
 import SidebarButtons from "../../Menu/SidebarButtons";
 import Footer from "@/Footer";
 import InitialVM from "../initial/InitialVM";
-import Terminal from "../Terminal/Terminal";
-import { BsTerminalFill } from "react-icons/bs";
+
 import MetricsTesting from "../../metrics/MetricsTesting";
 
 function MachineManagement() {
@@ -29,16 +28,7 @@ function MachineManagement() {
                                     <InitialVM />
                                 </div>
                             </div>
-                            <div className="bg-opacity-80 bg-slate-200  ">
-                                <div className="flex items-center">
-                                    <h1 className="text-2xl pt-2 pl-6"><strong>Terminal</strong></h1>
-                                    <BsTerminalFill className="text-2xl pl-6 text-center pt-2" size="2em" />
-                                </div>
-                                <p className="pl-6">Terminal de maquina inicializada</p>
-                                <div className="pt-2 px-6 pb-2">
-                                    <Terminal />
-                                </div>
-                            </div>
+
                             <div className="bg-opacity-80 bg-slate-200  rounded-b-md">
                                 <div className="flex items-center">
                                     <h1 className="text-2xl pt-2 pl-6"><strong>Metricas de maquinas </strong></h1>

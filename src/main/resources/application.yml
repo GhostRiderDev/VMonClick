@@ -5,12 +5,12 @@ spring:
   cassandra:
     keyspace-name: "kp"
     contact-points:
-      - "node-0.aws-us-east-1.6efb60f0387a1c7eeaa8.clusters.scylla.cloud"
-      - "node-1.aws-us-east-1.6efb60f0387a1c7eeaa8.clusters.scylla.cloud"
-      - "node-2.aws-us-east-1.6efb60f0387a1c7eeaa8.clusters.scylla.cloud"
+     - "node-0.aws-us-east-1.ae50cd89b6a741524417.clusters.scylla.cloud"
+     - "node-1.aws-us-east-1.ae50cd89b6a741524417.clusters.scylla.cloud"
+     - "node-2.aws-us-east-1.ae50cd89b6a741524417.clusters.scylla.cloud"
     schema-action: CREATE_IF_NOT_EXISTS
     username: scylla
-    password: 8Zbs9ygUS3tmziu
+    password: qpClT3NEi7k8vKF
     local-datacenter: AWS_US_EAST_1
     connection:
       connect-timeout: PT10S
@@ -33,4 +33,4 @@ jwt:
     secret: "46c8dcd2061bfe336e70802683e77d5c32de8e00b6e4251cb07eebe5965a87b7"
 
 vboxmanage:
-  bashDir: "D:\\OLVADIS\\GIT\\bin\\bash.exe"
+  bashDir: "C:\\Program Files\\Git\\bin\\bash.exe"

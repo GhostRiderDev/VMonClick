@@ -3,7 +3,7 @@ import LoginFrom from "./components/custom/login/LoginFrom";
 import Register from "./components/custom/register/Register";
 import Menu from "./components/custom/Menu/Principal/Menu";
 import ProtectedRoute from "./middleware/ProtectedRoute";
-import TerminalConn from "./components/custom/terminal/TerminalConn";
+import TerminalGestion from "./components/custom/terminal/TerminalGestion";
 import PrincipalVM from "./components/custom/VM/PrincipalVM";
 import MachineManagement from "./components/custom/VM/MachineManagement/MachineManagement";
 
@@ -24,7 +24,7 @@ function App() {
           <Route path="/VM" element={<PrincipalVM />} />
           <Route path="/machineManagement" element={<MachineManagement />} />
         </Route>
-        <Route path="/terminal" element={<TerminalConn />} />
+        <Route path="/terminal" element={<TerminalGestion />} />
       </Routes>
     </>
   );

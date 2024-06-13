@@ -55,7 +55,6 @@ public class VBoxManage {
 
     command.clear();
 
-
     command.add("VBoxManage");
     command.add("modifyvm");
     command.add(idVm);
@@ -74,7 +73,7 @@ public class VBoxManage {
     command.add("--nic1");
     command.add("bridged");
     command.add("--bridgeadapter1");
-    command.add("\"Realtek RTL8821CE 802.11ac PCIe Adapter\"");
+    command.add("\"Intel(R) Centrino(R) Advanced-N 6205\"");
     // command.add("--natpf1");
     // int randomPort = (int) (Math.random() * 16383 + 49152);
     // command.add("\"ssh,tcp,," + randomPort + ",,22\"");
@@ -87,10 +86,8 @@ public class VBoxManage {
     printProcessOutput(process);
     command.clear();
 
-
     // Crear el disco duro virtual
     String vdiFilePath = "C:\\Users\\Public/vdis/vdi_ubuntu " + instanceEntity.getId() + ".vdi";
-
 
     command.add("VBoxManage");
     command.add("createhd");
@@ -107,7 +104,6 @@ public class VBoxManage {
     printProcessOutput(process);
     command.clear();
 
-
     String sataName = "\"SATA Controller_" + instanceEntity.getId() + "\"";
 
     command.add("VBoxManage");
@@ -120,14 +116,10 @@ public class VBoxManage {
     command.add("--bootable");
     command.add("on");
 
-
-
     processBuilder.command(command);
     process = processBuilder.start();
     printProcessOutput(process);
     command.clear();
-
-
 
     command.add("VBoxManage");
     command.add("storageattach");
@@ -143,7 +135,6 @@ public class VBoxManage {
     command.add("--medium");
     command.add(vdiFilePath);
 
-
     processBuilder.command(command);
     process = processBuilder.start();
     printProcessOutput(process);
@@ -158,12 +149,10 @@ public class VBoxManage {
     command.add("--add");
     command.add("ide");
 
-
     processBuilder.command(command);
     process = processBuilder.start();
     printProcessOutput(process);
     command.clear();
-
 
     command.add("VBoxManage");
     command.add("storageattach");
@@ -277,16 +266,12 @@ public class VBoxManage {
     command.add(idInstance);
     command.add("CPU/Load/User,RAM/Usage/Used,Disk/Usage/Used,Net/Rate/Tx,Net/Rate/Rx");
 
-
-
     String cpuLoadUser = null;
     String ramUsageUsed = null;
     String diskUsageUsed = null;
     String netRateTx = null;
     String netRateRx = null;
     Map<String, Integer> metrics = new HashMap<>();
-
-
 
     try {
       processBuilder.command(command);
@@ -333,13 +318,10 @@ public class VBoxManage {
       String command = "VBoxManage.exe showvminfo \"" + idInstance
           + "\" | grep \"NIC\" | awk -F 'MAC: ' '{print $2}' | sed 's/,.*//' | tr '[:upper:]' '[:lower:]' | sed 's/\\(..\\)/\\1-/g' | sed 's/-$//'";
 
-
       List<String> commandList = new ArrayList<>();
       commandList.add(bashDir); // Update this path to your Git Bash path
       commandList.add("-c");
       commandList.add(command);
-
-
 
       ProcessBuilder processBuilder = new ProcessBuilder(commandList);
       Process process = processBuilder.start();

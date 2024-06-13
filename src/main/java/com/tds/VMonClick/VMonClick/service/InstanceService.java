@@ -21,7 +21,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-
 @Service
 public class InstanceService {
 
@@ -68,7 +67,6 @@ public class InstanceService {
     return intancesMetrics;
   }
 
-
   public InstanceEntity getInstanceById(String id) {
     return instanceRepository.findById(id).get();
   }
@@ -111,8 +109,6 @@ public class InstanceService {
 
     instanceRepository.save(instance);
   }
-
-
 
   public ResponseEntity<String> startInstance(String id) throws IOException, InterruptedException {
     var instance = instanceRepository.findById(id).get();
@@ -173,8 +169,8 @@ public class InstanceService {
 
   public void pingMulticast() {
     try {
-      for (int i = 2; i <= 100; i++) {
-        String ip = "192.168.1." + i;
+      for (int i = 2; i <= 200; i++) {
+        String ip = "10.61.0." + i;
         System.out.println("Pinging " + ip);
         ProcessBuilder processBuilder = new ProcessBuilder("cmd.exe", "/c", "ping -n 1 " + ip);
         processBuilder.start();

@@ -69,4 +69,9 @@ public class InstanceController {
       throws IOException, InterruptedException {
     return instanceService.startInstance(id);
   }
+
+  @GetMapping("/{id}/ip")
+  public String getIp(@PathVariable("id") String id) {
+    return instanceService.getIpInstance(id);
+  }
 }

@@ -32,7 +32,7 @@ export default function CreatorVM() {
         try {
             Loading();
             const data = {
-                idVM: 1,
+                idVM: 2,
                 idUser: userId.id,
                 idRsc: resourceId
             };

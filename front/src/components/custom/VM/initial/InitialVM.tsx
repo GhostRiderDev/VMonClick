@@ -88,6 +88,7 @@ const InitialVM = () => {
     });
     setMachines(newMachines);
   };
+  console.log(machines)
   return (
     <>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-4 md:p-6">
@@ -122,11 +123,10 @@ const InitialVM = () => {
                   />
                 </div>
                 <div
-                  className={`px-2 py-1 rounded-full text-xs font-medium ${
-                    machine.stop
-                      ? "bg-red-100 text-red-600 dark:bg-red-900 dark:text-red-300"
-                      : "bg-green-100 text-green-600 dark:bg-green-900 dark:text-green-300"
-                  }`}
+                  className={`px-2 py-1 rounded-full text-xs font-medium ${machine.stop
+                    ? "bg-red-100 text-red-600 dark:bg-red-900 dark:text-red-300"
+                    : "bg-green-100 text-green-600 dark:bg-green-900 dark:text-green-300"
+                    }`}
                 >
                   {machine.stop ? "Stopped" : "Running"}
                 </div>
@@ -149,11 +149,10 @@ const InitialVM = () => {
                 <Button
                   variant="outline"
                   size="sm"
-                  className={`${
-                    machines.stop
-                      ? "hover:bg-red-500"
-                      : "hover:bg-green-500 hover:p-4"
-                  }`}
+                  className={`${machines.stop
+                    ? "hover:bg-red-500"
+                    : "hover:bg-green-500 hover:p-4"
+                    }`}
                   onClick={() => handleOnCLick(machine.id, machine.stop)}
                 >
                   {machine.stop ? "Run" : "Stop"}
